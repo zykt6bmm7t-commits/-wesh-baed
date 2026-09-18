@@ -1,0 +1,13 @@
+{
+  "name": "wesh-baed-business",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "wrangler dev --config wrangler.jsonc",
+    "deploy:dev": "wrangler deploy --config wrangler.jsonc",
+    "db:migrate:remote": "wrangler d1 migrations apply wesh-baed-business-dev --remote --config wrangler.jsonc"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
