@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wesh-baed-business-api-dev",
+  "main": "worker/src/index.js",
+  "compatibility_date": "2026-09-18",
+  "workers_dev": true,
+  "vars": {
+    "ENVIRONMENT": "development",
+    "TURNSTILE_BYPASS": "false"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "wesh-baed-business-dev",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ]
+}
