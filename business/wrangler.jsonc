@@ -6,6 +6,7 @@
   "workers_dev": true,
   "vars": {
     "ENVIRONMENT": "development",
+    "ADMIN_USERNAME": "admin",
     "TURNSTILE_BYPASS": "false",
     "ALLOWED_ORIGINS": "https://raw.githack.com,http://localhost:8787,http://127.0.0.1:8787"
   },
