@@ -3,6 +3,7 @@ const H={"content-type":"application/json; charset=utf-8"};
 const j=(d,s=200,h={})=>new Response(JSON.stringify(d),{status:s,headers:{...H,...h}});
 const clean=(v,n=255)=>v==null?null:String(v).trim().slice(0,n)||null;
 const cors=(r,e)=>{const o=r.headers.get("origin")||"";const a=(e.ALLOWED_ORIGINS||"").split(",").map(x=>x.trim()).filter(Boolean);return o&&a.includes(o)?{"access-control-allow-origin":o,"access-control-allow-methods":"GET,POST,PATCH,OPTIONS","access-control-allow-headers":"content-type,authorization","access-control-max-age":"86400","vary":"Origin"}:{}};
+const finish=(res,ch)=>{const h=new Headers(res.headers);Object.entries(ch).forEach(([k,v])=>h.set(k,v));h.set("cache-control","no-store");h.set("x-content-type-options","nosniff");return new Response(res.body,{status:res.status,headers:h})};
 const isAdmin=(r,e)=>{const a=r.headers.get("authorization")||"";return !!e.ADMIN_API_KEY&&a==="Bearer "+e.ADMIN_API_KEY};
 async function verify(r,e,t,a){
   if(e.TURNSTILE_BYPASS==="true"&&e.ENVIRONMENT!=="production") return true;
@@ -57,15 +58,15 @@ export default {async fetch(r,e){
   const u=new URL(r.url),ch=cors(r,e);
   if(r.method==="OPTIONS")return new Response(null,{status:204,headers:ch});
   try{
-    if(u.pathname==="/api/health"&&r.method==="GET") return j({ok:true,service:"wesh-baed-business-api"});
-    if(u.pathname==="/api/events"&&r.method==="POST") return event(r,e);
-    if(u.pathname==="/api/feedback"&&r.method==="POST") return feedback(r,e);
-    if(u.pathname==="/api/support"&&r.method==="POST") return support(r,e);
+    if(u.pathname==="/api/health"&&r.method==="GET") return finish(j({ok:true,service:"wesh-baed-business-api"}),ch);
+    if(u.pathname==="/api/events"&&r.method==="POST") return finish(await event(r,e),ch);
+    if(u.pathname==="/api/feedback"&&r.method==="POST") return finish(await feedback(r,e),ch);
+    if(u.pathname==="/api/support"&&r.method==="POST") return finish(await support(r,e),ch);
     let res;
     if(u.pathname==="/api/admin/summary"&&r.method==="GET"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=await summary(e)}
     else if(u.pathname==="/api/admin/tickets"&&r.method==="GET"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=await tickets(e,u)}
     else if(u.pathname.startsWith("/api/admin/tickets/")&&r.method==="PATCH"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=await patchTicket(r,e,decodeURIComponent(u.pathname.split("/").pop()))}
     else return j({error:"not_found"},404);
-    const h=new Headers(res.headers);Object.entries(ch).forEach(([k,v])=>h.set(k,v));h.set("cache-control","no-store");h.set("x-content-type-options","nosniff");return new Response(res.body,{status:res.status,headers:h});
-  }catch(_){return j({error:"internal_error"},500)}
+    return finish(res,ch);
+  }catch(_){return finish(j({error:"internal_error"},500),ch)}
 }};
