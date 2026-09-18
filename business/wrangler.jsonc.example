@@ -6,7 +6,8 @@
   "workers_dev": true,
   "vars": {
     "ENVIRONMENT": "development",
-    "TURNSTILE_BYPASS": "false"
+    "TURNSTILE_BYPASS": "false",
+    "ALLOWED_ORIGINS": "https://raw.githack.com,http://localhost:8787,http://127.0.0.1:8787"
   },
   "d1_databases": [
     {
