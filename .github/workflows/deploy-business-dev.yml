@@ -68,6 +68,35 @@ jobs:
             echo "TURNSTILE_SECRET_KEY not configured yet; development bypass remains available."
           fi
 
+      - name: Ensure Turnstile preview hostname
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          node - <<'NODE'
+          const token = process.env.CLOUDFLARE_API_TOKEN;
+          const account = process.env.CLOUDFLARE_ACCOUNT_ID;
+          const sitekey = "0x4AAAAAAE8ULGTeWY800TDk";
+          const base = "https://api.cloudflare.com/client/v4/accounts/" + account + "/challenges/widgets/" + sitekey;
+          const headers = {authorization:"Bearer "+token,"content-type":"application/json"};
+          const g = await fetch(base,{headers});
+          const gj = await g.json();
+          if(!g.ok || gj.success!==true) throw new Error("turnstile_widget_read_failed:"+g.status+":"+JSON.stringify(gj.errors||[]));
+          const w = gj.result || {};
+          const domains = Array.from(new Set([...(w.domains||[]),"raw.githack.com"]));
+          if(domains.length>10) throw new Error("turnstile_hostname_limit");
+          if((w.domains||[]).includes("raw.githack.com")){
+            console.log("TURNSTILE_HOSTNAME_OK",JSON.stringify({domains}));
+            process.exit(0);
+          }
+          const body={domains,mode:w.mode||"managed",name:w.name||"wesh-baed-dev"};
+          if(w.clearance_level) body.clearance_level=w.clearance_level;
+          const u = await fetch(base,{method:"PUT",headers,body:JSON.stringify(body)});
+          const uj = await u.json();
+          if(!u.ok || uj.success!==true) throw new Error("turnstile_widget_update_failed:"+u.status+":"+JSON.stringify(uj.errors||[]));
+          console.log("TURNSTILE_HOSTNAME_ADDED",JSON.stringify({domains:uj.result?.domains||domains}));
+          NODE
+
       - name: Health check
         run: |
           node - <<'NODE'
