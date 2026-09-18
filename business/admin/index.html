@@ -33,7 +33,7 @@ tbody tr:last-child td{border-bottom:0}.empty{padding:24px 6px;text-align:center
 .toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px}.refresh{border:1px solid #d6e0db;background:#fff;color:var(--brand);border-radius:10px;padding:8px 11px;font-weight:700;cursor:pointer}
 @media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.auth{grid-template-columns:1fr}.top{align-items:center}.status{display:none}}
 @media(max-width:520px){.shell{padding:18px 12px 40px}.brand h1{font-size:25px}.kpis{grid-template-columns:1fr 1fr;gap:9px}.kpi{padding:14px;min-height:105px}.kpi .v{font-size:29px}.panel{padding:14px;border-radius:16px}.auth{border-radius:16px}.tickets{overflow:auto}.tickets table{min-width:720px}}
-</style>
+.navtabs{display:flex;gap:8px;margin:16px 0 4px;flex-wrap:wrap}.navtabs button{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;padding:8px 12px;font-weight:800;cursor:pointer}.navtabs button.active{background:var(--brand);color:#fff;border-color:var(--brand)}.chart{display:flex;align-items:flex-end;gap:7px;height:150px;padding-top:12px}.barcol{flex:1;min-width:14px;text-align:center}.bar{width:100%;background:var(--brand);border-radius:8px 8px 3px 3px;min-height:3px;opacity:.85}.barlabel{font-size:10px;color:var(--muted);margin-top:5px;white-space:nowrap}.miniList{display:grid;gap:8px}.miniRow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.miniTrack{height:7px;background:#eef3f0;border-radius:99px;overflow:hidden}.miniFill{height:100%;background:var(--brand);border-radius:99px}.delta{font-size:11px;font-weight:800;margin-top:6px}.delta.up{color:#14804a}.delta.down{color:#b42318}.sectionBlock{margin-top:12px}@media(max-width:520px){.chart{height:120px}.navtabs{overflow:auto;flex-wrap:nowrap;padding-bottom:4px}}</style>
 </head>
 <body>
 <div class="shell">
@@ -47,18 +47,18 @@ tbody tr:last-child td{border-bottom:0}.empty{padding:24px 6px;text-align:center
     <div class="field"><label>مفتاح الإدارة</label><input id="key" type="password" placeholder="ADMIN_API_KEY" autocomplete="off"></div>
     <button class="primary" id="load">تحميل البيانات</button>
   </div>
-  <div id="error" class="err"></div>
+  <div id="error" class="err"></div><div class="navtabs"><button class="active">Overview</button><button>Analytics</button><button>Feedback</button><button>Support</button></div>
 
   <div class="meta"><h2>ملخص الأداء</h2><span id="updated">لم يتم التحميل بعد</span></div>
   <section class="kpis">
-    <div class="kpi"><div class="t">زوار اليوم</div><div id="today" class="v">—</div><div class="s">جلسات فريدة</div></div>
-    <div class="kpi"><div class="t">آخر 7 أيام</div><div id="week" class="v">—</div><div class="s">جلسات فريدة</div></div>
+    <div class="kpi"><div class="t">زوار اليوم</div><div id="today" class="v">—</div><div id="todayDelta" class="delta">—</div></div>
+    <div class="kpi"><div class="t">آخر 7 أيام</div><div id="week" class="v">—</div><div id="weekDelta" class="delta">—</div></div>
     <div class="kpi"><div class="t">آخر 30 يومًا</div><div id="month" class="v">—</div><div class="s">جلسات فريدة</div></div>
     <div class="kpi"><div class="t">متوسط التقييم</div><div id="rating" class="v">—</div><div id="ratingCount" class="s">لا توجد تقييمات بعد</div></div>
-    <div class="kpi"><div class="t">تذاكر مفتوحة</div><div id="tickets" class="v">—</div><div class="s">تحتاج متابعة</div></div>
+    <div class="kpi"><div class="t">تذاكر مفتوحة</div><div id="tickets" class="v">—</div><div class="s">تحتاج متابعة</div></div><div class="kpi"><div class="t">التحويل إلى نتيجة</div><div id="conversion" class="v">—</div><div class="s">من بدأوا ووصلوا لنتيجة</div></div>
   </section>
 
-  <section class="grid">
+  <section class="grid sectionBlock"><div class="panel"><div class="panelHead"><h3>الزيارات — آخر 14 يومًا</h3><span class="badge">Trend</span></div><div id="trendChart" class="chart"></div></div><div class="panel"><div class="panelHead"><h3>الأجهزة</h3><span class="badge">30 يومًا</span></div><div id="devices" class="miniList"></div></div></section><section class="grid">
     <div class="panel">
       <div class="panelHead"><h3>أكثر النتائج مشاهدة</h3><span class="badge">Top 10</span></div>
       <table><thead><tr><th>النتيجة</th><th>المشاهدات</th></tr></thead><tbody id="results"><tr><td colspan="2" class="empty">حمّل البيانات لعرض النتائج</td></tr></tbody></table>
@@ -69,7 +69,7 @@ tbody tr:last-child td{border-bottom:0}.empty{padding:24px 6px;text-align:center
     </div>
   </section>
 
-  <section class="panel tickets">
+  <section class="grid sectionBlock"><div class="panel"><div class="panelHead"><h3>توزيع التقييمات</h3><span class="badge">1–5</span></div><div id="ratings" class="miniList"></div></div><div class="panel"><div class="panelHead"><h3>أكثر الأسئلة مشاهدة</h3><span class="badge">Top 10</span></div><table><thead><tr><th>السؤال</th><th>المشاهدات</th></tr></thead><tbody id="questions"><tr><td colspan="2" class="empty">حمّل البيانات</td></tr></tbody></table></div></section><section class="panel tickets">
     <div class="toolbar"><div><h3>تذاكر خدمة العملاء</h3><div style="color:var(--muted);font-size:12px;margin-top:4px">إدارة الرسائل ومتابعة حالتها</div></div><button class="refresh" id="loadTickets">تحديث التذاكر</button></div>
     <table><thead><tr><th>الحالة</th><th>التصنيف</th><th>الرسالة</th><th>التواصل</th><th>الإجراء</th></tr></thead><tbody id="ticketRows"><tr><td colspan="5" class="empty">لا توجد بيانات محمّلة</td></tr></tbody></table>
   </section>
@@ -94,8 +94,8 @@ async function load(){
     $("month").textContent=d.visitors.days30;
     $("rating").textContent=d.feedback.average_rating??"—";
     $("ratingCount").textContent=d.feedback.count?d.feedback.count+" تقييم":"لا توجد تقييمات بعد";
-    $("tickets").textContent=d.support.open;
-    $("results").innerHTML=rowsOrEmpty(d.top_results,x=>"<tr><td>"+safe(x.result_id)+"</td><td>"+safe(x.views)+"</td></tr>",2);
+    $("tickets").textContent=d.support.open;    $("conversion").textContent=(d.funnel?.conversion_pct??0)+"%";    const setDelta=(id,v)=>{const el=$(id);if(v==null){el.textContent="لا توجد مقارنة سابقة";el.className="delta";return}el.textContent=(v>0?"+":"")+v+"% عن الفترة السابقة";el.className="delta "+(v>0?"up":v<0?"down":"")};    setDelta("todayDelta",d.visitors.today_change_pct); setDelta("weekDelta",d.visitors.week_change_pct);
+    $("results").innerHTML=rowsOrEmpty(d.top_results,x=>"<tr><td>"+safe(x.result_id)+"</td><td>"+safe(x.views)+"</td></tr>",2);    $("questions").innerHTML=rowsOrEmpty(d.top_questions,x=>"<tr><td>"+safe(x.question_id)+"</td><td>"+safe(x.views)+"</td></tr>",2);    const mx=Math.max(1,...(d.trend||[]).map(x=>Number(x.sessions||0))); $("trendChart").innerHTML=(d.trend||[]).map(x=>"<div class=\"barcol\"><div class=\"bar\" style=\"height:"+Math.max(3,Math.round(Number(x.sessions||0)/mx*110))+"px\"></div><div class=\"barlabel\">"+safe(String(x.day).slice(5))+"</div></div>").join("")||"<div class=\"empty\">لا توجد بيانات بعد</div>";    const devTotal=Math.max(1,(d.devices||[]).reduce((s,x)=>s+Number(x.sessions||0),0)); $("devices").innerHTML=(d.devices||[]).map(x=>"<div class=\"miniRow\"><div><div style=\"display:flex;justify-content:space-between;gap:8px\"><span>"+safe(x.device)+"</span><strong>"+safe(x.sessions)+"</strong></div><div class=\"miniTrack\"><div class=\"miniFill\" style=\"width:"+Math.round(Number(x.sessions||0)/devTotal*100)+"%\"></div></div></div></div>").join("")||"<div class=\"empty\">لا توجد بيانات بعد</div>";    const ratTotal=Math.max(1,(d.feedback?.ratings||[]).reduce((s,x)=>s+Number(x.n||0),0)); $("ratings").innerHTML=[1,2,3,4,5].map(r=>{const x=(d.feedback?.ratings||[]).find(y=>Number(y.rating)===r),n=Number(x?.n||0);return "<div class=\"miniRow\"><div><div style=\"display:flex;justify-content:space-between\"><span>"+r+" ★</span><strong>"+n+"</strong></div><div class=\"miniTrack\"><div class=\"miniFill\" style=\"width:"+Math.round(n/ratTotal*100)+"%\"></div></div></div></div>"}).join("");
     $("campaigns").innerHTML=rowsOrEmpty(d.campaigns,x=>"<tr><td>"+safe(x.source)+"</td><td>"+safe(x.sessions)+"</td></tr>",2);
     $("updated").textContent="آخر تحديث: "+new Date().toLocaleTimeString("ar-SA",{hour:"2-digit",minute:"2-digit"});
     await loadTickets(true);
