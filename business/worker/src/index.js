@@ -43,16 +43,40 @@ async function support(r,e){
 async function tickets(e,u){const s=u.searchParams.get("status"),l=Math.min(Math.max(Number(u.searchParams.get("limit"))||50,1),100);const q=s?e.DB.prepare("SELECT id,contact,category,message,status,created_at,updated_at FROM support_tickets WHERE status=? ORDER BY created_at DESC LIMIT ?").bind(s,l):e.DB.prepare("SELECT id,contact,category,message,status,created_at,updated_at FROM support_tickets ORDER BY created_at DESC LIMIT ?").bind(l);const x=await q.all();return j({tickets:x.results||[]})}
 async function patchTicket(r,e,id){const b=await body(r);if(!new Set(["new","in_progress","closed"]).has(b.status))return j({error:"invalid_status"},400);const x=await e.DB.prepare("UPDATE support_tickets SET status=?,updated_at=datetime('now') WHERE id=?").bind(b.status,id).run();return j({ok:true,changed:x.meta?.changes||0})}
 async function summary(e){
-  const [a,b,c,d,f,g,h]=await Promise.all([
+  const q=[
     e.DB.prepare("SELECT COUNT(DISTINCT session_id) n FROM events WHERE created_at>=datetime('now','-1 day')").first(),
+    e.DB.prepare("SELECT COUNT(DISTINCT session_id) n FROM events WHERE created_at>=datetime('now','-2 day') AND created_at<datetime('now','-1 day')").first(),
     e.DB.prepare("SELECT COUNT(DISTINCT session_id) n FROM events WHERE created_at>=datetime('now','-7 day')").first(),
+    e.DB.prepare("SELECT COUNT(DISTINCT session_id) n FROM events WHERE created_at>=datetime('now','-14 day') AND created_at<datetime('now','-7 day')").first(),
     e.DB.prepare("SELECT COUNT(DISTINCT session_id) n FROM events WHERE created_at>=datetime('now','-30 day')").first(),
-    e.DB.prepare("SELECT ROUND(AVG(rating),2) avg, COUNT(*) n FROM feedback").first(),
+    e.DB.prepare("SELECT ROUND(AVG(rating),2) avg, COUNT(*) n, SUM(CASE WHEN helpful=1 THEN 1 ELSE 0 END) helpful_yes, SUM(CASE WHEN helpful=0 THEN 1 ELSE 0 END) helpful_no FROM feedback").first(),
+    e.DB.prepare("SELECT rating,COUNT(*) n FROM feedback GROUP BY rating ORDER BY rating").all(),
     e.DB.prepare("SELECT COUNT(*) n FROM support_tickets WHERE status!='closed'").first(),
-    e.DB.prepare("SELECT result_id,COUNT(*) views FROM events WHERE event_name='result_view' AND result_id IS NOT NULL GROUP BY result_id ORDER BY views DESC LIMIT 10").all(),
-    e.DB.prepare("SELECT COALESCE(utm_source,'direct') source,COUNT(DISTINCT session_id) sessions FROM events WHERE created_at>=datetime('now','-30 day') GROUP BY COALESCE(utm_source,'direct') ORDER BY sessions DESC LIMIT 10").all()
-  ]);
-  return j({visitors:{today:a?.n||0,days7:b?.n||0,days30:c?.n||0},feedback:{average_rating:d?.avg||null,count:d?.n||0},support:{open:f?.n||0},top_results:g.results||[],campaigns:h.results||[]});
+    e.DB.prepare("SELECT status,COUNT(*) n FROM support_tickets GROUP BY status").all(),
+    e.DB.prepare("SELECT category,COUNT(*) n FROM support_tickets GROUP BY category ORDER BY n DESC").all(),
+    e.DB.prepare("SELECT result_id,COUNT(*) views FROM events WHERE event_name='result_view' AND result_id IS NOT NULL AND created_at>=datetime('now','-30 day') GROUP BY result_id ORDER BY views DESC LIMIT 10").all(),
+    e.DB.prepare("SELECT question_id,COUNT(*) views FROM events WHERE event_name='question_view' AND question_id IS NOT NULL AND created_at>=datetime('now','-30 day') GROUP BY question_id ORDER BY views DESC LIMIT 10").all(),
+    e.DB.prepare("SELECT COALESCE(utm_source,'direct') source,COUNT(DISTINCT session_id) sessions FROM events WHERE created_at>=datetime('now','-30 day') GROUP BY COALESCE(utm_source,'direct') ORDER BY sessions DESC LIMIT 10").all(),
+    e.DB.prepare("SELECT COALESCE(device_class,'unknown') device,COUNT(DISTINCT session_id) sessions FROM events WHERE created_at>=datetime('now','-30 day') GROUP BY COALESCE(device_class,'unknown') ORDER BY sessions DESC").all(),
+    e.DB.prepare("SELECT date(created_at) day,COUNT(DISTINCT session_id) sessions FROM events WHERE created_at>=datetime('now','-13 day') GROUP BY date(created_at) ORDER BY day").all(),
+    e.DB.prepare("SELECT COUNT(DISTINCT CASE WHEN event_name='session_start' THEN session_id END) started,COUNT(DISTINCT CASE WHEN event_name='result_view' THEN session_id END) completed,COUNT(CASE WHEN event_name='page_view' THEN 1 END) page_views FROM events WHERE created_at>=datetime('now','-30 day')").first(),
+    e.DB.prepare("SELECT event_name,COUNT(*) n FROM events WHERE created_at>=datetime('now','-30 day') GROUP BY event_name ORDER BY n DESC").all()
+  ];
+  const [today,prevDay,days7,prev7,days30,fb,ratings,open,statuses,categories,topResults,topQuestions,campaigns,devices,trend,funnel,eventCounts]=await Promise.all(q);
+  const pct=(cur,prev)=>prev?.n?Math.round(((Number(cur?.n||0)-Number(prev.n))/Number(prev.n))*100):null;
+  const started=Number(funnel?.started||0), completed=Number(funnel?.completed||0);
+  return j({
+    visitors:{today:Number(today?.n||0),days7:Number(days7?.n||0),days30:Number(days30?.n||0),today_change_pct:pct(today,prevDay),week_change_pct:pct(days7,prev7)},
+    funnel:{started,completed,conversion_pct:started?Math.round((completed/started)*1000)/10:0,page_views:Number(funnel?.page_views||0)},
+    feedback:{average_rating:fb?.avg||null,count:Number(fb?.n||0),helpful_yes:Number(fb?.helpful_yes||0),helpful_no:Number(fb?.helpful_no||0),ratings:ratings.results||[]},
+    support:{open:Number(open?.n||0),statuses:statuses.results||[],categories:categories.results||[]},
+    top_results:topResults.results||[],
+    top_questions:topQuestions.results||[],
+    campaigns:campaigns.results||[],
+    devices:devices.results||[],
+    trend:trend.results||[],
+    events:eventCounts.results||[]
+  });
 }
 export default {async fetch(r,e){
   const u=new URL(r.url),ch=cors(r,e);
