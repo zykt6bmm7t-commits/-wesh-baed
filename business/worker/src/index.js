@@ -88,7 +88,8 @@ export default {async fetch(r,e){
     if(u.pathname==="/api/feedback"&&r.method==="POST") return finish(await feedback(r,e),ch);
     if(u.pathname==="/api/support"&&r.method==="POST") return finish(await support(r,e),ch);
     let res;
-    if(u.pathname==="/api/admin/summary"&&r.method==="GET"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=await summary(e)}
+    if(u.pathname==="/api/admin/security"&&r.method==="GET"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=j({turnstile:{bypass:e.TURNSTILE_BYPASS==="true",secret_configured:!!e.TURNSTILE_SECRET_KEY,hostname_locked:!!e.TURNSTILE_HOSTNAME},environment:e.ENVIRONMENT||null})}
+    else if(u.pathname==="/api/admin/summary"&&r.method==="GET"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=await summary(e)}
     else if(u.pathname==="/api/admin/tickets"&&r.method==="GET"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=await tickets(e,u)}
     else if(u.pathname.startsWith("/api/admin/tickets/")&&r.method==="PATCH"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=await patchTicket(r,e,decodeURIComponent(u.pathname.split("/").pop()))}
     else return j({error:"not_found"},404);
