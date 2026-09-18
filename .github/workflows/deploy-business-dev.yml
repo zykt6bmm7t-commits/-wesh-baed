@@ -82,6 +82,22 @@ jobs:
           NODE
 
 
+      - name: Verify submitted support ticket
+        env:
+          ADMIN_API_KEY: ${{ secrets.ADMIN_API_KEY }}
+        run: |
+          node - <<'NODE'
+          const base="https://wesh-baed-business-api-dev.97tn6h2yzj.workers.dev";
+          const ticketId="c02d6608-2c01-4505-8f0a-2ca2cdc630b1";
+          const r=await fetch(base+"/api/admin/tickets?limit=100",{headers:{authorization:"Bearer "+process.env.ADMIN_API_KEY}});
+          const text=await r.text();
+          let data=null; try{data=JSON.parse(text)}catch{}
+          if(!r.ok) throw new Error("admin_tickets_failed:"+r.status+":"+text);
+          const hit=(data?.tickets||[]).find(t=>t.id===ticketId);
+          if(!hit) throw new Error("submitted_ticket_not_found");
+          console.log("SUBMITTED_TICKET_VERIFIED",JSON.stringify({id:hit.id,status:hit.status,category:hit.category,created_at:hit.created_at}));
+          NODE
+
       - name: Business API security gate
         env:
           ADMIN_API_KEY: ${{ secrets.ADMIN_API_KEY }}
