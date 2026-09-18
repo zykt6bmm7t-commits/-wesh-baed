@@ -55,6 +55,32 @@ jobs:
             echo "ADMIN_API_KEY is not configured; admin endpoints stay locked."
           fi
 
+      - name: Configure optional admin login password
+        env:
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$ADMIN_PASSWORD" ]; then
+            printf '%s' "$ADMIN_PASSWORD" | npx wrangler secret put ADMIN_PASSWORD --config wrangler.jsonc
+            echo "ADMIN_PASSWORD configured."
+          else
+            echo "ADMIN_PASSWORD is not configured yet; login temporarily falls back to ADMIN_API_KEY."
+          fi
+
+      - name: Configure optional admin session secret
+        env:
+          ADMIN_SESSION_SECRET: ${{ secrets.ADMIN_SESSION_SECRET }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$ADMIN_SESSION_SECRET" ]; then
+            printf '%s' "$ADMIN_SESSION_SECRET" | npx wrangler secret put ADMIN_SESSION_SECRET --config wrangler.jsonc
+            echo "ADMIN_SESSION_SECRET configured."
+          else
+            echo "ADMIN_SESSION_SECRET is not configured yet; sessions temporarily use ADMIN_API_KEY for signing."
+          fi
+
       - name: Configure optional Turnstile secret
         env:
           TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
