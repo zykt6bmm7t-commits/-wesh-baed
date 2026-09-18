@@ -55,6 +55,19 @@ jobs:
             echo "ADMIN_API_KEY is not configured; admin endpoints stay locked."
           fi
 
+      - name: Configure optional Turnstile secret
+        env:
+          TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$TURNSTILE_SECRET_KEY" ]; then
+            printf '%s' "$TURNSTILE_SECRET_KEY" | npx wrangler secret put TURNSTILE_SECRET_KEY --config wrangler.jsonc
+            echo "TURNSTILE_SECRET_KEY configured."
+          else
+            echo "TURNSTILE_SECRET_KEY not configured yet; development bypass remains available."
+          fi
+
       - name: Health check
         run: |
           node - <<'NODE'
