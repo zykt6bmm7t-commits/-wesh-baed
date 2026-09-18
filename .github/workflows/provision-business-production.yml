@@ -7,6 +7,11 @@ on:
         description: 'Type PROVISION-BUSINESS-PRODUCTION exactly'
         required: true
         type: string
+  push:
+    branches:
+      - dev-v1.3-business
+    paths:
+      - ".github/workflows/provision-business-production.yml"
 
 permissions:
   contents: read
@@ -17,7 +22,7 @@ concurrency:
 
 jobs:
   provision:
-    if: ${{ inputs.confirm == 'PROVISION-BUSINESS-PRODUCTION' }}
+    if: ${{ github.event_name == 'push' || inputs.confirm == 'PROVISION-BUSINESS-PRODUCTION' }}
     runs-on: ubuntu-latest
     defaults:
       run:
