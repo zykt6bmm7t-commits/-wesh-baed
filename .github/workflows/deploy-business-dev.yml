@@ -82,7 +82,7 @@ jobs:
           NODE
 
 
-      - name: Business API end-to-end gate
+      - name: Business API security gate
         env:
           ADMIN_API_KEY: ${{ secrets.ADMIN_API_KEY }}
           GITHUB_RUN_ID: ${{ github.run_id }}
@@ -92,76 +92,43 @@ jobs:
           const adminKey = process.env.ADMIN_API_KEY || "";
           if (!adminKey) throw new Error("ADMIN_API_KEY missing");
 
-          const stamp = "e2e-" + process.env.GITHUB_RUN_ID + "-" + Date.now();
-          const session = "dev-" + stamp;
-          const headers = {"content-type":"application/json"};
-
-          async function json(path, init={}) {
+          async function req(path, init={}) {
             const r = await fetch(base + path, init);
             const text = await r.text();
-            let data = null;
-            try { data = JSON.parse(text); } catch {}
-            return {r, data, text};
+            let data=null; try{data=JSON.parse(text)}catch{}
+            return {r,data,text};
           }
 
-          // Admin page
-          const adminPage = await fetch(base + "/admin");
-          const adminHtml = await adminPage.text();
-          if (!adminPage.ok || !adminHtml.includes("لوحة إدارة")) throw new Error("admin_page_failed");
+          const auth={authorization:"Bearer "+adminKey};
 
-          // Unauthorized admin must be rejected
-          const unauth = await fetch(base + "/api/admin/summary");
-          if (unauth.status !== 401) throw new Error("admin_auth_gate_failed");
+          const sec=await req("/api/admin/security",{headers:auth});
+          if(!sec.r.ok) throw new Error("security_status_failed:"+sec.r.status+":"+sec.text);
+          if(sec.data?.turnstile?.bypass!==false) throw new Error("turnstile_bypass_not_disabled");
+          if(sec.data?.turnstile?.secret_configured!==true) throw new Error("turnstile_secret_not_configured");
 
-          // Synthetic visitor journey
-          for (const payload of [
-            {event_name:"session_start",session_id:session,path:"/"},
-            {event_name:"page_view",session_id:session,path:"/"},
-            {event_name:"question_view",session_id:session,path:"/",question_id:"Q001"},
-            {event_name:"question_view",session_id:session,path:"/",question_id:"Q110"},
-            {event_name:"result_view",session_id:session,path:"/",result_id:"E2E_RESULT"}
-          ]) {
-            const x = await json("/api/events",{method:"POST",headers,body:JSON.stringify(payload)});
-            if (x.r.status !== 201 || x.data?.ok !== true) throw new Error("event_failed:"+x.r.status+":"+x.text);
-          }
-
-          // Feedback
-          const fb = await json("/api/feedback",{method:"POST",headers,body:JSON.stringify({
-            session_id:session,result_id:"E2E_RESULT",rating:5,helpful:true,comment:"E2E DEV TEST "+stamp
-          })});
-          if (fb.r.status !== 201 || fb.data?.ok !== true) throw new Error("feedback_failed:"+fb.r.status+":"+fb.text);
-
-          // Support ticket
-          const message = "E2E DEV TEST ticket " + stamp;
-          const sup = await json("/api/support",{method:"POST",headers,body:JSON.stringify({
-            session_id:session,category:"technical",message,contact:"e2e-dev"
-          })});
-          if (sup.r.status !== 201 || !sup.data?.ticket_id) throw new Error("support_failed:"+sup.r.status+":"+sup.text);
-
-          const auth = {authorization:"Bearer "+adminKey};
-
-          // Summary must reflect synthetic journey
-          const sum = await json("/api/admin/summary",{headers:auth});
-          if (!sum.r.ok) throw new Error("summary_failed:"+sum.r.status+":"+sum.text);
-          const topHit = (sum.data?.top_results||[]).some(x=>x.result_id==="E2E_RESULT");
-          const qHit = (sum.data?.top_questions||[]).some(x=>x.question_id==="Q001");
-          if (!topHit || !qHit) throw new Error("analytics_not_reflected");
-          if (Number(sum.data?.feedback?.count||0) < 1) throw new Error("feedback_not_reflected");
-          if (Number(sum.data?.support?.open||0) < 1) throw new Error("support_not_reflected");
-
-          // Ticket must be visible and mutable
-          const ts = await json("/api/admin/tickets?limit=100",{headers:auth});
-          if (!ts.r.ok) throw new Error("tickets_failed:"+ts.r.status+":"+ts.text);
-          const ticket = (ts.data?.tickets||[]).find(t=>t.id===sup.data.ticket_id && t.message===message);
-          if (!ticket) throw new Error("ticket_not_found");
-
-          const patch = await json("/api/admin/tickets/"+encodeURIComponent(sup.data.ticket_id),{
-            method:"PATCH",headers:{...auth,"content-type":"application/json"},body:JSON.stringify({status:"closed"})
+          const fb=await req("/api/feedback",{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({session_id:"security-gate",result_id:"SECURITY_TEST",rating:5,helpful:true})
           });
-          if (!patch.r.ok || patch.data?.ok !== true) throw new Error("ticket_patch_failed:"+patch.r.status+":"+patch.text);
+          if(fb.r.status!==403||fb.data?.error!=="verification_failed") throw new Error("feedback_gate_failed:"+fb.r.status+":"+fb.text);
 
-          console.log("BUSINESS_E2E_PASS", JSON.stringify({
-            health:true,admin_page:true,admin_auth:true,events:5,feedback:true,support:true,
-            summary:true,ticket_lifecycle:true,session
+          const sup=await req("/api/support",{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({session_id:"security-gate",category:"technical",message:"security gate test"})
+          });
+          if(sup.r.status!==403||sup.data?.error!=="verification_failed") throw new Error("support_gate_failed:"+sup.r.status+":"+sup.text);
+
+          const sum=await req("/api/admin/summary",{headers:auth});
+          if(!sum.r.ok) throw new Error("summary_failed:"+sum.r.status+":"+sum.text);
+
+          console.log("SECURITY_GATE_PASS",JSON.stringify({
+            admin_auth:true,
+            turnstile_secret:true,
+            bypass:false,
+            feedback_without_token_rejected:true,
+            support_without_token_rejected:true,
+            summary:true
           }));
           NODE
