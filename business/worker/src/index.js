@@ -6,13 +6,19 @@ const cors=(r,e)=>{const o=r.headers.get("origin")||"";const a=(e.ALLOWED_ORIGIN
 const finish=(res,ch)=>{const h=new Headers(res.headers);Object.entries(ch).forEach(([k,v])=>h.set(k,v));h.set("cache-control","no-store");h.set("x-content-type-options","nosniff");return new Response(res.body,{status:res.status,headers:h})};
 const isAdmin=(r,e)=>{const a=r.headers.get("authorization")||"";return !!e.ADMIN_API_KEY&&a==="Bearer "+e.ADMIN_API_KEY};
 async function verify(r,e,t,a){
-  if(e.TURNSTILE_BYPASS==="true"&&e.ENVIRONMENT!=="production") return true;
-  if(!e.TURNSTILE_SECRET_KEY||!t) return false;
+  if(e.TURNSTILE_BYPASS==="true"&&e.ENVIRONMENT!=="production") return {ok:true,bypass:true};
+  if(!e.TURNSTILE_SECRET_KEY) return {ok:false,reason:"secret_missing"};
+  if(!t) return {ok:false,reason:"token_missing"};
   const f=new FormData(); f.append("secret",e.TURNSTILE_SECRET_KEY); f.append("response",t);
   const ip=r.headers.get("CF-Connecting-IP"); if(ip) f.append("remoteip",ip);
-  const x=await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify",{method:"POST",body:f});
-  if(!x.ok) return false; const d=await x.json();
-  return !!d.success && (!a||!d.action||d.action===a) && (!e.TURNSTILE_HOSTNAME||d.hostname===e.TURNSTILE_HOSTNAME);
+  try{
+    const x=await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify",{method:"POST",body:f});
+    if(!x.ok) return {ok:false,reason:"siteverify_http_"+x.status};
+    const d=await x.json();
+    const actionOk=!a||!d.action||d.action===a;
+    const hostOk=!e.TURNSTILE_HOSTNAME||d.hostname===e.TURNSTILE_HOSTNAME;
+    return {ok:!!d.success&&actionOk&&hostOk,reason:!d.success?"siteverify_failed":(!actionOk?"action_mismatch":(!hostOk?"hostname_mismatch":null)),details:{hostname:d.hostname||null,action:d.action||null,error_codes:Array.isArray(d["error-codes"])?d["error-codes"]:[]}};
+  }catch(_){return {ok:false,reason:"siteverify_exception"}}
 }
 async function body(r){if(!(r.headers.get("content-type")||"").includes("application/json"))throw 0;return r.json()}
 async function event(r,e){
@@ -24,7 +30,7 @@ async function event(r,e){
   return j({ok:true,id},201);
 }
 async function feedback(r,e){
-  const b=await body(r); if(!(await verify(r,e,b.turnstile_token,"feedback"))) return j({error:"verification_failed"},403);
+  const b=await body(r); const v=await verify(r,e,b.turnstile_token,"feedback"); if(!v.ok) return j({error:"verification_failed",verification:e.ENVIRONMENT==="development"?{reason:v.reason,hostname:v.details?.hostname||null,action:v.details?.action||null,error_codes:v.details?.error_codes||[]}:undefined},403);
   const rating=Number(b.rating); if(!Number.isInteger(rating)||rating<1||rating>5) return j({error:"invalid_rating"},400);
   const id=crypto.randomUUID();
   await e.DB.prepare("INSERT INTO feedback (id,session_id,result_id,rating,helpful,comment,created_at) VALUES (?,?,?,?,?,?,datetime('now'))")
@@ -32,7 +38,7 @@ async function feedback(r,e){
   return j({ok:true,id},201);
 }
 async function support(r,e){
-  const b=await body(r); if(!(await verify(r,e,b.turnstile_token,"support"))) return j({error:"verification_failed"},403);
+  const b=await body(r); const v=await verify(r,e,b.turnstile_token,"support"); if(!v.ok) return j({error:"verification_failed",verification:e.ENVIRONMENT==="development"?{reason:v.reason,hostname:v.details?.hostname||null,action:v.details?.action||null,error_codes:v.details?.error_codes||[]}:undefined},403);
   if(!new Set(["technical","billing","account","content","suggestion","other"]).has(b.category)) return j({error:"invalid_category"},400);
   const m=clean(b.message,3000); if(!m||m.length<5) return j({error:"invalid_message"},400);
   const id=crypto.randomUUID();
