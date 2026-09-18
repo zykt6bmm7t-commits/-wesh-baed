@@ -2,6 +2,7 @@
 const H={"content-type":"application/json; charset=utf-8"};
 const j=(d,s=200,h={})=>new Response(JSON.stringify(d),{status:s,headers:{...H,...h}});
 const clean=(v,n=255)=>v==null?null:String(v).trim().slice(0,n)||null;
+const cors=(r,e)=>{const o=r.headers.get("origin")||"";const a=(e.ALLOWED_ORIGINS||"").split(",").map(x=>x.trim()).filter(Boolean);return o&&a.includes(o)?{"access-control-allow-origin":o,"access-control-allow-methods":"GET,POST,PATCH,OPTIONS","access-control-allow-headers":"content-type,authorization","access-control-max-age":"86400","vary":"Origin"}:{}};
 const isAdmin=(r,e)=>{const a=r.headers.get("authorization")||"";return !!e.ADMIN_API_KEY&&a==="Bearer "+e.ADMIN_API_KEY};
 async function verify(r,e,t,a){
   if(e.TURNSTILE_BYPASS==="true"&&e.ENVIRONMENT!=="production") return true;
@@ -38,6 +39,8 @@ async function support(r,e){
     .bind(id,clean(b.session_id,80),clean(b.contact,160),b.category,m).run();
   return j({ok:true,ticket_id:id,status:"new"},201);
 }
+async function tickets(e,u){const s=u.searchParams.get("status"),l=Math.min(Math.max(Number(u.searchParams.get("limit"))||50,1),100);const q=s?e.DB.prepare("SELECT id,contact,category,message,status,created_at,updated_at FROM support_tickets WHERE status=? ORDER BY created_at DESC LIMIT ?").bind(s,l):e.DB.prepare("SELECT id,contact,category,message,status,created_at,updated_at FROM support_tickets ORDER BY created_at DESC LIMIT ?").bind(l);const x=await q.all();return j({tickets:x.results||[]})}
+async function patchTicket(r,e,id){const b=await body(r);if(!new Set(["new","in_progress","closed"]).has(b.status))return j({error:"invalid_status"},400);const x=await e.DB.prepare("UPDATE support_tickets SET status=?,updated_at=datetime('now') WHERE id=?").bind(b.status,id).run();return j({ok:true,changed:x.meta?.changes||0})}
 async function summary(e){
   const [a,b,c,d,f,g,h]=await Promise.all([
     e.DB.prepare("SELECT COUNT(DISTINCT session_id) n FROM events WHERE created_at>=datetime('now','-1 day')").first(),
@@ -51,13 +54,18 @@ async function summary(e){
   return j({visitors:{today:a?.n||0,days7:b?.n||0,days30:c?.n||0},feedback:{average_rating:d?.avg||null,count:d?.n||0},support:{open:f?.n||0},top_results:g.results||[],campaigns:h.results||[]});
 }
 export default {async fetch(r,e){
-  const u=new URL(r.url);
+  const u=new URL(r.url),ch=cors(r,e);
+  if(r.method==="OPTIONS")return new Response(null,{status:204,headers:ch});
   try{
     if(u.pathname==="/api/health"&&r.method==="GET") return j({ok:true,service:"wesh-baed-business-api"});
     if(u.pathname==="/api/events"&&r.method==="POST") return event(r,e);
     if(u.pathname==="/api/feedback"&&r.method==="POST") return feedback(r,e);
     if(u.pathname==="/api/support"&&r.method==="POST") return support(r,e);
-    if(u.pathname==="/api/admin/summary"&&r.method==="GET"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);return summary(e)}
-    return j({error:"not_found"},404);
+    let res;
+    if(u.pathname==="/api/admin/summary"&&r.method==="GET"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=await summary(e)}
+    else if(u.pathname==="/api/admin/tickets"&&r.method==="GET"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=await tickets(e,u)}
+    else if(u.pathname.startsWith("/api/admin/tickets/")&&r.method==="PATCH"){if(!isAdmin(r,e))return j({error:"unauthorized"},401);res=await patchTicket(r,e,decodeURIComponent(u.pathname.split("/").pop()))}
+    else return j({error:"not_found"},404);
+    const h=new Headers(res.headers);Object.entries(ch).forEach(([k,v])=>h.set(k,v));h.set("cache-control","no-store");h.set("x-content-type-options","nosniff");return new Response(res.body,{status:res.status,headers:h});
   }catch(_){return j({error:"internal_error"},500)}
 }};
