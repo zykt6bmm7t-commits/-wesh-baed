@@ -108,6 +108,88 @@ jobs:
           NODE
 
 
+      - name: Final admin session gate
+        env:
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        run: |
+          node - <<'NODE'
+          const base="https://wesh-baed-business-api-dev.97tn6h2yzj.workers.dev";
+          const password=process.env.ADMIN_PASSWORD||"";
+          if(!password) throw new Error("ADMIN_PASSWORD missing");
+
+          async function req(path,init={}) {
+            const r=await fetch(base+path,{redirect:"manual",...init});
+            const text=await r.text();
+            let data=null; try{data=JSON.parse(text)}catch{}
+            return {r,text,data};
+          }
+
+          const loginPage=await req("/admin");
+          if(loginPage.r.status!==200||!loginPage.text.includes('id="login"')||!loginPage.text.includes("اسم المستخدم"))
+            throw new Error("login_page_failed");
+
+          const bad=await req("/api/admin/login",{
+            method:"POST",headers:{"content-type":"application/json"},
+            body:JSON.stringify({username:"admin",password:password+"-wrong"})
+          });
+          if(bad.r.status!==401||bad.data?.error!=="invalid_credentials")
+            throw new Error("bad_login_not_rejected:"+bad.r.status+":"+bad.text);
+
+          const wrongUser=await req("/api/admin/login",{
+            method:"POST",headers:{"content-type":"application/json"},
+            body:JSON.stringify({username:"not-admin",password})
+          });
+          if(wrongUser.r.status!==401)
+            throw new Error("wrong_username_not_rejected:"+wrongUser.r.status);
+
+          const ok=await req("/api/admin/login",{
+            method:"POST",headers:{"content-type":"application/json"},
+            body:JSON.stringify({username:"admin",password})
+          });
+          if(!ok.r.ok||ok.data?.ok!==true) throw new Error("admin_login_failed:"+ok.r.status+":"+ok.text);
+          const setCookie=ok.r.headers.get("set-cookie")||"";
+          for(const flag of ["wb_admin_session=","HttpOnly","Secure","SameSite=Strict","Max-Age=43200"])
+            if(!setCookie.includes(flag)) throw new Error("session_cookie_missing_"+flag);
+          const cookie=setCookie.split(";")[0];
+
+          const unauth=await req("/api/admin/summary");
+          if(unauth.r.status!==401) throw new Error("admin_endpoint_not_protected:"+unauth.r.status);
+
+          const summary=await req("/api/admin/summary",{headers:{cookie}});
+          if(!summary.r.ok||!summary.data?.visitors||!summary.data?.feedback||!summary.data?.support)
+            throw new Error("session_summary_failed:"+summary.r.status+":"+summary.text);
+
+          const feedback=await req("/api/admin/feedback?limit=5",{headers:{cookie}});
+          if(!feedback.r.ok||!Array.isArray(feedback.data?.feedback))
+            throw new Error("session_feedback_failed:"+feedback.r.status+":"+feedback.text);
+
+          const tickets=await req("/api/admin/tickets?limit=5",{headers:{cookie}});
+          if(!tickets.r.ok||!Array.isArray(tickets.data?.tickets))
+            throw new Error("session_tickets_failed:"+tickets.r.status+":"+tickets.text);
+
+          const dashboard=await req("/admin",{headers:{cookie}});
+          if(dashboard.r.status!==200||!dashboard.text.includes("Business Intelligence & Support")||!dashboard.text.includes('id="logout"'))
+            throw new Error("authenticated_dashboard_failed");
+
+          const logout=await req("/api/admin/logout",{method:"POST",headers:{cookie}});
+          if(!logout.r.ok) throw new Error("logout_failed:"+logout.r.status);
+          const clear=logout.r.headers.get("set-cookie")||"";
+          if(!clear.includes("wb_admin_session=")||!clear.includes("Max-Age=0"))
+            throw new Error("logout_cookie_not_cleared");
+
+          console.log("FINAL_ADMIN_SESSION_GATE_PASS",JSON.stringify({
+            login_page:true,
+            invalid_credentials_rejected:true,
+            secure_cookie:true,
+            session_auth:true,
+            summary:true,
+            feedback:true,
+            tickets:true,
+            dashboard:true,
+            logout:true
+          }));
+          NODE
+
       - name: Business API security gate
         env:
           ADMIN_API_KEY: ${{ secrets.ADMIN_API_KEY }}
