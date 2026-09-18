@@ -28,3 +28,6 @@ Analytics يخزن معرفات تقنية فقط ولا يخزن نص إجاب�
 
 ## ملاحظة
 لوحة الإدارة الحالية Development فقط. قبل Production استبدل مفتاح الإدارة اليدوي بمصادقة أقوى مثل Cloudflare Access أو طبقة دخول مكافئة.
+
+## Dev admin secret
+- يتم تمرير ADMIN_API_KEY عبر GitHub Actions Secrets أثناء نشر بيئة التطوير فقط.
