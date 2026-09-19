@@ -1,0 +1,40 @@
+name: Inspect main Production Worker
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev-v1.3-business
+    paths:
+      - ".github/workflows/inspect-main-production.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Wrangler
+        run: npm install --no-audit --no-fund wrangler@^4
+
+      - name: Inspect current wesh-baed deployment
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          echo "=== Wrangler whoami ==="
+          npx wrangler whoami
+          echo "=== Current deployments ==="
+          npx wrangler deployments list --name wesh-baed
+          echo "=== Current versions ==="
+          npx wrangler versions list --name wesh-baed
