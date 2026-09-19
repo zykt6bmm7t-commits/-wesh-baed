@@ -227,6 +227,36 @@ jobs:
           console.log("PRODUCTION_SECURITY_GATE_PASS");
           NODE
 
+      - name: Final production frontend gate
+        env:
+          PROD_TURNSTILE_SITE_KEY: ${{ secrets.PROD_TURNSTILE_SITE_KEY }}
+        run: |
+          node - <<'NODE'
+          const fs=require("fs");
+          const html=fs.readFileSync("index.html","utf8");
+          const api="https://wesh-baed-business-api.97tn6h2yzj.workers.dev";
+          const origin="https://wesh-baed.97tn6h2yzj.workers.dev";
+          const expectedKey=process.env.PROD_TURNSTILE_SITE_KEY||"";
+          for(const required of [
+            "location.hostname==='wesh-baed.97tn6h2yzj.workers.dev'",
+            api,
+            "/api/config",
+            "getBusinessTurnstileSitekey"
+          ]) if(!html.includes(required)) throw new Error("frontend_wiring_missing:"+required);
+          if(html.includes("window.WESH_BAED_TURNSTILE_SITEKEY||'"+expectedKey+"'")) throw new Error("production_site_key_hardcoded");
+          const cfgR=await fetch(api+"/api/config",{headers:{origin}});
+          const cfgText=await cfgR.text();
+          if(!cfgR.ok) throw new Error("config_failed:"+cfgR.status+":"+cfgText);
+          const cfg=JSON.parse(cfgText);
+          if(cfg.service!=="wesh-baed-business-api") throw new Error("config_service_mismatch");
+          if(cfg.environment!=="production") throw new Error("config_environment_mismatch");
+          if(!cfg.turnstile_site_key||cfg.turnstile_site_key!==expectedKey) throw new Error("config_site_key_mismatch");
+          if("turnstile_secret_key" in cfg||"secret" in cfg) throw new Error("config_exposes_secret");
+          const acao=cfgR.headers.get("access-control-allow-origin");
+          if(acao!==origin) throw new Error("production_cors_mismatch:"+String(acao));
+          console.log("FINAL_PRODUCTION_FRONTEND_GATE_PASS");
+          NODE
+
       - name: Production provisioning summary
         run: |
           echo "BUSINESS_PRODUCTION_PROVISIONING_PASS"
