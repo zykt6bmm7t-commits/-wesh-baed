@@ -29,10 +29,12 @@ jobs:
         working-directory: business
 
     steps:
-      - name: Checkout repository
+      - name: Checkout exact source
         uses: actions/checkout@v4
         with:
           ref: dev-v1.3-business
+          fetch-depth: 0
+         
 
       - name: Verify FINAL development head
         working-directory: .
