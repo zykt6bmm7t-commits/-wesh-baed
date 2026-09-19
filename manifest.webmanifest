@@ -1,0 +1,16 @@
+{
+  "name": "وش بعد؟",
+  "short_name": "وش بعد؟",
+  "description": "دليلك الإجرائي لمعرفة الخطوة التالية في المسارات القانونية والإدارية والخدمية في السعودية.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f4f7f6",
+  "theme_color": "#0d6b5d",
+  "lang": "ar-SA",
+  "dir": "rtl",
+  "categories": [
+    "reference",
+    "productivity"
+  ]
+}
