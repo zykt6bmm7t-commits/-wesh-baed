@@ -100,6 +100,7 @@ jobs:
       - name: Generate ephemeral production config
         env:
           DATABASE_ID: ${{ steps.d1.outputs.database_id }}
+          PROD_TURNSTILE_SITE_KEY: ${{ secrets.PROD_TURNSTILE_SITE_KEY }}
         run: |
           node - <<'NODE'
           const fs=require("fs");
@@ -116,7 +117,8 @@ jobs:
               ADMIN_USERNAME:"admin",
               TURNSTILE_BYPASS:"false",
               ALLOWED_ORIGINS:"https://wesh-baed.97tn6h2yzj.workers.dev",
-              TURNSTILE_HOSTNAME:"wesh-baed.97tn6h2yzj.workers.dev"
+              TURNSTILE_HOSTNAME:"wesh-baed.97tn6h2yzj.workers.dev",
+              TURNSTILE_SITE_KEY:process.env.PROD_TURNSTILE_SITE_KEY
             },
             d1_databases:[{
               binding:"DB",
