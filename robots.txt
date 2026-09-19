@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wesh-baed.97tn6h2yzj.workers.dev/sitemap.xml
