@@ -232,6 +232,7 @@ jobs:
           PROD_TURNSTILE_SITE_KEY: ${{ secrets.PROD_TURNSTILE_SITE_KEY }}
         run: |
           node - <<'NODE'
+          (async()=>{
           const fs=require("fs");
           const html=fs.readFileSync("index.html","utf8");
           const api="https://wesh-baed-business-api.97tn6h2yzj.workers.dev";
@@ -255,6 +256,7 @@ jobs:
           const acao=cfgR.headers.get("access-control-allow-origin");
           if(acao!==origin) throw new Error("production_cors_mismatch:"+String(acao));
           console.log("FINAL_PRODUCTION_FRONTEND_GATE_PASS");
+          })().catch(e=>{console.error(e);process.exit(1)});
           NODE
 
       - name: Production provisioning summary
