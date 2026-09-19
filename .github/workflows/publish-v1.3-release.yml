@@ -1,0 +1,70 @@
+name: Publish v1.3 FINAL Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev-v1.3-business
+    paths:
+      - ".github/workflows/publish-v1.3-release.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Guard exact production commit
+        run: |
+          set -euo pipefail
+          EXPECTED="757768ac98608273624e4e6c21c35e679cec41ec"
+          ACTUAL="$(git rev-parse HEAD)"
+          echo "Expected: $EXPECTED"
+          echo "Actual:   $ACTUAL"
+          test "$ACTUAL" = "$EXPECTED"
+
+      - name: Create and push v1.3.0 tag
+        run: |
+          set -euo pipefail
+          git fetch --tags --force
+          if git rev-parse "refs/tags/v1.3.0" >/dev/null 2>&1; then
+            EXISTING="$(git rev-list -n 1 v1.3.0)"
+            test "$EXISTING" = "757768ac98608273624e4e6c21c35e679cec41ec"
+            echo "Tag already exists on expected commit."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git tag -a v1.3.0 "757768ac98608273624e4e6c21c35e679cec41ec" -m "وش بعد؟ v1.3 FINAL"
+            git push origin refs/tags/v1.3.0
+          fi
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view v1.3.0 >/dev/null 2>&1; then
+            echo "Release already exists."
+          else
+            gh release create v1.3.0 \
+              --verify-tag \
+              --title "وش بعد؟ v1.3 FINAL" \
+              --notes "الإصدار النهائي v1.3 لمنصة «وش بعد؟». يشمل تحديثات شجرة القرار المعتمدة، Business API، التحليلات، التقييمات، الدعم والتذاكر، لوحة الإدارة الآمنة، وربط Production Turnstile. تم اجتياز Final Production Frontend Gate وPost-Deploy Smoke Gate."
+          fi
+
+      - name: Verify release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG_SHA="$(git rev-list -n 1 v1.3.0)"
+          test "$TAG_SHA" = "757768ac98608273624e4e6c21c35e679cec41ec"
+          gh release view v1.3.0 --json tagName,name,isDraft,isPrerelease,url --jq '.'
+          echo "V1_3_FINAL_RELEASE_PASS"
