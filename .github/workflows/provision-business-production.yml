@@ -84,8 +84,9 @@ jobs:
           DB_ID="$(node -e 'const a=JSON.parse(process.argv[1]);const x=a.find(v=>v.name==="wesh-baed-business");if(x)process.stdout.write(x.uuid||x.id||"")' "$LIST")"
           if [ -z "$DB_ID" ]; then
             echo "Creating production D1: wesh-baed-business"
-            CREATED="$(npx wrangler d1 create wesh-baed-business --json)"
-            DB_ID="$(node -e 'const x=JSON.parse(process.argv[1]);process.stdout.write(x.uuid||x.id||x.database_id||"")' "$CREATED")"
+            npx wrangler d1 create wesh-baed-business
+            LIST="$(npx wrangler d1 list --json)"
+            DB_ID="$(node -e 'const a=JSON.parse(process.argv[1]);const x=a.find(v=>v.name==="wesh-baed-business");if(x)process.stdout.write(x.uuid||x.id||"")' "$LIST")"
           else
             echo "Production D1 already exists."
           fi
