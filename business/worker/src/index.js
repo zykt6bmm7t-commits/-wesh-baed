@@ -102,7 +102,7 @@ export default {async fetch(r,e){
     if(u.pathname==="/admin"&&r.method==="GET"){const ok=await validSession(r,e);return new Response(ok?ADMIN_HTML:LOGIN_HTML,{status:200,headers:{"content-type":"text/html; charset=utf-8","cache-control":"no-store","x-content-type-options":"nosniff"}})}
     if(u.pathname==="/api/admin/login"&&r.method==="POST") return finish(await adminLogin(r,e),ch);
     if(u.pathname==="/api/admin/logout"&&r.method==="POST") return finish(adminLogout(),ch);
-    if(u.pathname==="/api/health"&&r.method==="GET") return finish(j({ok:true,service:"wesh-baed-business-api"}),ch);
+    if(u.pathname==="/api/config"&&r.method==="GET"){res=j({service:"wesh-baed-business-api",environment:e.ENVIRONMENT||null,turnstile_site_key:e.TURNSTILE_SITE_KEY||null})}else if(u.pathname==="/api/health"&&r.method==="GET") return finish(j({ok:true,service:"wesh-baed-business-api"}),ch);
     if(u.pathname==="/api/events"&&r.method==="POST") return finish(await event(r,e),ch);
     if(u.pathname==="/api/feedback"&&r.method==="POST") return finish(await feedback(r,e),ch);
     if(u.pathname==="/api/support"&&r.method==="POST") return finish(await support(r,e),ch);
