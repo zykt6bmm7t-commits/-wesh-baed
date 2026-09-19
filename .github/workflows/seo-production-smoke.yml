@@ -1,0 +1,34 @@
+name: SEO Production Smoke
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev-v1.3-business
+    paths:
+      - ".github/workflows/seo-production-smoke.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify production SEO
+        run: |
+          set -euo pipefail
+          BASE="https://wesh-baed.97tn6h2yzj.workers.dev"
+          curl -fsS --retry 4 --retry-delay 3 "$BASE/" -o index.html
+          grep -F '<meta name="description"' index.html >/dev/null
+          grep -F '<link rel="canonical" href="https://wesh-baed.97tn6h2yzj.workers.dev/">' index.html >/dev/null
+          grep -F 'application/ld+json' index.html >/dev/null
+
+          curl -fsS --retry 4 --retry-delay 3 "$BASE/robots.txt" -o robots.txt
+          grep -F 'User-agent: *' robots.txt >/dev/null
+          grep -F 'Sitemap: https://wesh-baed.97tn6h2yzj.workers.dev/sitemap.xml' robots.txt >/dev/null
+
+          curl -fsS --retry 4 --retry-delay 3 "$BASE/sitemap.xml" -o sitemap.xml
+          grep -F '<loc>https://wesh-baed.97tn6h2yzj.workers.dev/</loc>' sitemap.xml >/dev/null
+
+          echo "SEO_PRODUCTION_SMOKE_PASS"
