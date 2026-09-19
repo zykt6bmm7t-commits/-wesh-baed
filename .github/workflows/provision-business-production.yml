@@ -234,7 +234,7 @@ jobs:
           node - <<'NODE'
           (async()=>{
           const fs=require("fs");
-          const html=fs.readFileSync("index.html","utf8");
+          const html=fs.readFileSync("../index.html","utf8");
           const api="https://wesh-baed-business-api.97tn6h2yzj.workers.dev";
           const origin="https://wesh-baed.97tn6h2yzj.workers.dev";
           const expectedKey=process.env.PROD_TURNSTILE_SITE_KEY||"";
