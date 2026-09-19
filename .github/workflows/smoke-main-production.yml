@@ -1,0 +1,40 @@
+name: Smoke main Production
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev-v1.3-business
+    paths:
+      - ".github/workflows/smoke-main-production.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Smoke current production
+        shell: bash
+        run: |
+          set -euo pipefail
+          APP="https://wesh-baed.97tn6h2yzj.workers.dev"
+          BIZ="https://wesh-baed-business-api.97tn6h2yzj.workers.dev"
+
+          echo "=== App ==="
+          curl -fsS --retry 3 --retry-delay 2 "$APP/" -o app.html
+          grep -F "v1.3 FINAL" app.html >/dev/null
+          grep -F "$BIZ" app.html >/dev/null
+          grep -F "getBusinessTurnstileSitekey" app.html >/dev/null
+
+          echo "=== Business health ==="
+          curl -fsS --retry 3 "$BIZ/api/health" -o health.json
+          node -e 'const d=require("./health.json"); if(d.ok!==true||d.service!=="wesh-baed-business-api") process.exit(1)'
+
+          echo "=== Runtime config + CORS ==="
+          curl -fsS -D headers.txt -H "Origin: $APP" "$BIZ/api/config" -o config.json
+          node -e 'const d=require("./config.json"); if(d.environment!=="production"||d.service!=="wesh-baed-business-api"||!d.turnstile_site_key) process.exit(1); if("secret" in d||"turnstile_secret_key" in d) process.exit(1)'
+          grep -Fi "access-control-allow-origin: $APP" headers.txt >/dev/null
+
+          echo "POST_DEPLOY_SMOKE_GATE_PASS"
