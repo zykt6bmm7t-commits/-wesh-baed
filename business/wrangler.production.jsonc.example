@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wesh-baed-business-api",
+  "main": "worker/src/index.js",
+  "compatibility_date": "2026-09-18",
+  "workers_dev": true,
+  "vars": {
+    "ENVIRONMENT": "production",
+    "ADMIN_USERNAME": "admin",
+    "TURNSTILE_BYPASS": "false",
+    "ALLOWED_ORIGINS": "https://wesh-baed.97tn6h2yzj.workers.dev"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "wesh-baed-business",
+      "database_id": "__PRODUCTION_D1_DATABASE_ID__",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

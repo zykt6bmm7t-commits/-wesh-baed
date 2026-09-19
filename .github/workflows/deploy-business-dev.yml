@@ -1,0 +1,242 @@
+name: Deploy v1.3 Business Dev Worker
+# admin secret refresh trigger
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev-v1.3-business
+    paths:
+      - "business/worker/**"
+      - "business/wrangler.jsonc"
+      - "business/package.json"
+      - ".github/workflows/deploy-business-dev.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wesh-baed-business-api-dev
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: business
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Deploy development Worker only
+        run: npx wrangler deploy --config wrangler.jsonc
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Configure optional admin secret
+        env:
+          ADMIN_API_KEY: ${{ secrets.ADMIN_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$ADMIN_API_KEY" ]; then
+            printf '%s' "$ADMIN_API_KEY" | npx wrangler secret put ADMIN_API_KEY --config wrangler.jsonc
+          else
+            echo "ADMIN_API_KEY is not configured; admin endpoints stay locked."
+          fi
+
+      - name: Configure optional admin login password
+        env:
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$ADMIN_PASSWORD" ]; then
+            printf '%s' "$ADMIN_PASSWORD" | npx wrangler secret put ADMIN_PASSWORD --config wrangler.jsonc
+            echo "ADMIN_PASSWORD configured."
+          else
+            echo "ADMIN_PASSWORD is not configured yet; login temporarily falls back to ADMIN_API_KEY."
+          fi
+
+      - name: Configure optional admin session secret
+        env:
+          ADMIN_SESSION_SECRET: ${{ secrets.ADMIN_SESSION_SECRET }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$ADMIN_SESSION_SECRET" ]; then
+            printf '%s' "$ADMIN_SESSION_SECRET" | npx wrangler secret put ADMIN_SESSION_SECRET --config wrangler.jsonc
+            echo "ADMIN_SESSION_SECRET configured."
+          else
+            echo "ADMIN_SESSION_SECRET is not configured yet; sessions temporarily use ADMIN_API_KEY for signing."
+          fi
+
+      - name: Configure optional Turnstile secret
+        env:
+          TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$TURNSTILE_SECRET_KEY" ]; then
+            printf '%s' "$TURNSTILE_SECRET_KEY" | npx wrangler secret put TURNSTILE_SECRET_KEY --config wrangler.jsonc
+            echo "TURNSTILE_SECRET_KEY configured."
+          else
+            echo "TURNSTILE_SECRET_KEY not configured yet; development bypass remains available."
+          fi
+
+      - name: Health check
+        run: |
+          node - <<'NODE'
+          const url = "https://wesh-baed-business-api-dev.97tn6h2yzj.workers.dev/api/health";
+          const r = await fetch(url);
+          const text = await r.text();
+          console.log("status:", r.status);
+          console.log("body:", text);
+          if (!r.ok) process.exit(1);
+          const data = JSON.parse(text);
+          if (data.ok !== true || data.service !== "wesh-baed-business-api") process.exit(1);
+          NODE
+
+
+      - name: Final admin session gate
+        env:
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        run: |
+          node - <<'NODE'
+          const base="https://wesh-baed-business-api-dev.97tn6h2yzj.workers.dev";
+          const password=process.env.ADMIN_PASSWORD||"";
+          if(!password) throw new Error("ADMIN_PASSWORD missing");
+
+          async function req(path,init={}) {
+            const r=await fetch(base+path,{redirect:"manual",...init});
+            const text=await r.text();
+            let data=null; try{data=JSON.parse(text)}catch{}
+            return {r,text,data};
+          }
+
+          const loginPage=await req("/admin");
+          if(loginPage.r.status!==200||!loginPage.text.includes('id="login"')||!loginPage.text.includes("اسم المستخدم"))
+            throw new Error("login_page_failed");
+
+          const bad=await req("/api/admin/login",{
+            method:"POST",headers:{"content-type":"application/json"},
+            body:JSON.stringify({username:"admin",password:password+"-wrong"})
+          });
+          if(bad.r.status!==401||bad.data?.error!=="invalid_credentials")
+            throw new Error("bad_login_not_rejected:"+bad.r.status+":"+bad.text);
+
+          const wrongUser=await req("/api/admin/login",{
+            method:"POST",headers:{"content-type":"application/json"},
+            body:JSON.stringify({username:"not-admin",password})
+          });
+          if(wrongUser.r.status!==401)
+            throw new Error("wrong_username_not_rejected:"+wrongUser.r.status);
+
+          const ok=await req("/api/admin/login",{
+            method:"POST",headers:{"content-type":"application/json"},
+            body:JSON.stringify({username:"admin",password})
+          });
+          if(!ok.r.ok||ok.data?.ok!==true) throw new Error("admin_login_failed:"+ok.r.status+":"+ok.text);
+          const setCookie=ok.r.headers.get("set-cookie")||"";
+          for(const flag of ["wb_admin_session=","HttpOnly","Secure","SameSite=Strict","Max-Age=43200"])
+            if(!setCookie.includes(flag)) throw new Error("session_cookie_missing_"+flag);
+          const cookie=setCookie.split(";")[0];
+
+          const unauth=await req("/api/admin/summary");
+          if(unauth.r.status!==401) throw new Error("admin_endpoint_not_protected:"+unauth.r.status);
+
+          const summary=await req("/api/admin/summary",{headers:{cookie}});
+          if(!summary.r.ok||!summary.data?.visitors||!summary.data?.feedback||!summary.data?.support)
+            throw new Error("session_summary_failed:"+summary.r.status+":"+summary.text);
+
+          const feedback=await req("/api/admin/feedback?limit=5",{headers:{cookie}});
+          if(!feedback.r.ok||!Array.isArray(feedback.data?.feedback))
+            throw new Error("session_feedback_failed:"+feedback.r.status+":"+feedback.text);
+
+          const tickets=await req("/api/admin/tickets?limit=5",{headers:{cookie}});
+          if(!tickets.r.ok||!Array.isArray(tickets.data?.tickets))
+            throw new Error("session_tickets_failed:"+tickets.r.status+":"+tickets.text);
+
+          const dashboard=await req("/admin",{headers:{cookie}});
+          if(dashboard.r.status!==200||!dashboard.text.includes("Business Intelligence & Support")||!dashboard.text.includes('id="logout"'))
+            throw new Error("authenticated_dashboard_failed");
+
+          const logout=await req("/api/admin/logout",{method:"POST",headers:{cookie}});
+          if(!logout.r.ok) throw new Error("logout_failed:"+logout.r.status);
+          const clear=logout.r.headers.get("set-cookie")||"";
+          if(!clear.includes("wb_admin_session=")||!clear.includes("Max-Age=0"))
+            throw new Error("logout_cookie_not_cleared");
+
+          console.log("FINAL_ADMIN_SESSION_GATE_PASS",JSON.stringify({
+            login_page:true,
+            invalid_credentials_rejected:true,
+            secure_cookie:true,
+            session_auth:true,
+            summary:true,
+            feedback:true,
+            tickets:true,
+            dashboard:true,
+            logout:true
+          }));
+          NODE
+
+      - name: Business API security gate
+        env:
+          ADMIN_API_KEY: ${{ secrets.ADMIN_API_KEY }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+        run: |
+          node - <<'NODE'
+          const base = "https://wesh-baed-business-api-dev.97tn6h2yzj.workers.dev";
+          const adminKey = process.env.ADMIN_API_KEY || "";
+          if (!adminKey) throw new Error("ADMIN_API_KEY missing");
+
+          async function req(path, init={}) {
+            const r = await fetch(base + path, init);
+            const text = await r.text();
+            let data=null; try{data=JSON.parse(text)}catch{}
+            return {r,data,text};
+          }
+
+          const auth={authorization:"Bearer "+adminKey};
+
+          const sec=await req("/api/admin/security",{headers:auth});
+          if(!sec.r.ok) throw new Error("security_status_failed:"+sec.r.status+":"+sec.text);
+          if(sec.data?.turnstile?.bypass!==false) throw new Error("turnstile_bypass_not_disabled");
+          if(sec.data?.turnstile?.secret_configured!==true) throw new Error("turnstile_secret_not_configured");
+
+          const fb=await req("/api/feedback",{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({session_id:"security-gate",result_id:"SECURITY_TEST",rating:5,helpful:true})
+          });
+          if(fb.r.status!==403||fb.data?.error!=="verification_failed") throw new Error("feedback_gate_failed:"+fb.r.status+":"+fb.text);
+
+          const sup=await req("/api/support",{
+            method:"POST",
+            headers:{"content-type":"application/json"},
+            body:JSON.stringify({session_id:"security-gate",category:"technical",message:"security gate test"})
+          });
+          if(sup.r.status!==403||sup.data?.error!=="verification_failed") throw new Error("support_gate_failed:"+sup.r.status+":"+sup.text);
+
+          const sum=await req("/api/admin/summary",{headers:auth});
+          if(!sum.r.ok) throw new Error("summary_failed:"+sum.r.status+":"+sum.text);
+
+          console.log("SECURITY_GATE_PASS",JSON.stringify({
+            admin_auth:true,
+            turnstile_secret:true,
+            bypass:false,
+            feedback_without_token_rejected:true,
+            support_without_token_rejected:true,
+            summary:true
+          }));
+          NODE

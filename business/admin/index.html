@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>لوحة إدارة وش بعد؟</title>
+<style>
+:root{--bg:#f4f7f6;--card:#fff;--text:#15211d;--muted:#718078;--line:#e4ebe7;--brand:#0f5c4d;--brand2:#17483f;--soft:#eaf5f1;--danger:#b42318;--shadow:0 10px 30px rgba(20,45,37,.06)}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;background:linear-gradient(180deg,#eef6f3 0,#f7f9f8 220px,#f4f7f6 100%);color:var(--text)}
+.shell{max-width:1180px;margin:auto;padding:22px 16px 46px}
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.brand h1{margin:0;font-size:28px;letter-spacing:-.4px}.brand p{margin:6px 0 0;color:var(--muted);font-size:14px}
+.status{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);padding:9px 12px;border-radius:999px;font-size:13px;box-shadow:var(--shadow)}
+.dot{width:9px;height:9px;border-radius:50%;background:#18a36b;box-shadow:0 0 0 4px #e4f7ef}
+.auth{display:grid;grid-template-columns:1.6fr 1fr auto;gap:10px;background:rgba(255,255,255,.92);border:1px solid var(--line);padding:12px;border-radius:18px;box-shadow:var(--shadow);backdrop-filter:blur(12px)}
+.field{position:relative}.field label{display:block;font-size:11px;font-weight:800;color:var(--muted);margin:0 2px 6px}
+input,button{font:inherit}input{width:100%;height:44px;border:1px solid #d7e1dc;border-radius:12px;padding:0 12px;background:#fbfcfc;outline:none;color:var(--text)}
+input:focus{border-color:#8bbcaf;box-shadow:0 0 0 3px #e6f3ef}
+button.primary{align-self:end;height:44px;border:0;border-radius:12px;background:var(--brand);color:#fff;padding:0 20px;font-weight:800;cursor:pointer}
+button.primary:disabled{opacity:.55;cursor:wait}
+.err{min-height:20px;color:var(--danger);font-size:13px;margin:8px 4px 0}
+.meta{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:18px 2px 10px}.meta h2{margin:0;font-size:16px}.meta span{color:var(--muted);font-size:12px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow);min-height:116px}
+.kpi .t{color:var(--muted);font-size:13px}.kpi .v{font-size:32px;font-weight:900;margin-top:13px;letter-spacing:-1px}.kpi .s{font-size:11px;color:#8a978f;margin-top:5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
+.panelHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.panel h3{margin:0;font-size:17px}
+.badge{background:var(--soft);color:var(--brand);padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}
+table{width:100%;border-collapse:collapse}th,td{text-align:right;padding:11px 8px;border-bottom:1px solid #edf1ef;font-size:13px;vertical-align:top}th{color:var(--muted);font-size:11px}
+tbody tr:last-child td{border-bottom:0}.empty{padding:24px 6px;text-align:center;color:#98a39d;font-size:13px}
+.tickets{margin-top:12px}.ticketActions button{border:1px solid #d8e1dd;background:#fff;border-radius:9px;padding:7px 9px;cursor:pointer;margin:2px;font-size:12px}.ticketActions button:hover{background:#f5f8f7}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px}.refresh{border:1px solid #d6e0db;background:#fff;color:var(--brand);border-radius:10px;padding:8px 11px;font-weight:700;cursor:pointer}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.auth{grid-template-columns:1fr}.top{align-items:center}.status{display:none}}
+@media(max-width:520px){.shell{padding:18px 12px 40px}.brand h1{font-size:25px}.kpis{grid-template-columns:1fr 1fr;gap:9px}.kpi{padding:14px;min-height:105px}.kpi .v{font-size:29px}.panel{padding:14px;border-radius:16px}.auth{border-radius:16px}.tickets{overflow:auto}.tickets table{min-width:720px}}
+.navtabs{display:flex;gap:8px;margin:16px 0 4px;flex-wrap:wrap}.navtabs button{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;padding:8px 12px;font-weight:800;cursor:pointer}.navtabs button.active{background:var(--brand);color:#fff;border-color:var(--brand)}.chart{display:flex;align-items:flex-end;gap:7px;height:150px;padding-top:12px}.barcol{flex:1;min-width:14px;text-align:center}.bar{width:100%;background:var(--brand);border-radius:8px 8px 3px 3px;min-height:3px;opacity:.85}.barlabel{font-size:10px;color:var(--muted);margin-top:5px;white-space:nowrap}.miniList{display:grid;gap:8px}.miniRow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.miniTrack{height:7px;background:#eef3f0;border-radius:99px;overflow:hidden}.miniFill{height:100%;background:var(--brand);border-radius:99px}.delta{font-size:11px;font-weight:800;margin-top:6px}.delta.up{color:#14804a}.delta.down{color:#b42318}.sectionBlock{margin-top:12px}@media(max-width:520px){.chart{height:120px}.navtabs{overflow:auto;flex-wrap:nowrap;padding-bottom:4px}}</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="brand"><h1>لوحة إدارة «وش بعد؟»</h1><p>مؤشرات الاستخدام وخدمة العملاء — بيئة تطوير v1.3</p></div>
+    <div class="status"><span class="dot"></span><span>Business API متصل</span></div>
+  </div>
+
+  <div class="auth">
+    <div class="field"><label>رابط Business API</label><input id="api" value="https://wesh-baed-business-api-dev.97tn6h2yzj.workers.dev"></div>
+    <div class="field"><label>مفتاح الإدارة</label><input id="key" type="password" placeholder="ADMIN_API_KEY" autocomplete="off"></div>
+    <button class="primary" id="load">تحميل البيانات</button>
+  </div>
+  <div id="error" class="err"></div><div class="navtabs"><button class="active">Overview</button><button>Analytics</button><button>Feedback</button><button>Support</button></div>
+
+  <div class="meta"><h2>ملخص الأداء</h2><span id="updated">لم يتم التحميل بعد</span></div>
+  <section class="kpis">
+    <div class="kpi"><div class="t">زوار اليوم</div><div id="today" class="v">—</div><div id="todayDelta" class="delta">—</div></div>
+    <div class="kpi"><div class="t">آخر 7 أيام</div><div id="week" class="v">—</div><div id="weekDelta" class="delta">—</div></div>
+    <div class="kpi"><div class="t">آخر 30 يومًا</div><div id="month" class="v">—</div><div class="s">جلسات فريدة</div></div>
+    <div class="kpi"><div class="t">متوسط التقييم</div><div id="rating" class="v">—</div><div id="ratingCount" class="s">لا توجد تقييمات بعد</div></div>
+    <div class="kpi"><div class="t">تذاكر مفتوحة</div><div id="tickets" class="v">—</div><div class="s">تحتاج متابعة</div></div><div class="kpi"><div class="t">التحويل إلى نتيجة</div><div id="conversion" class="v">—</div><div class="s">من بدأوا ووصلوا لنتيجة</div></div>
+  </section>
+
+  <section class="grid sectionBlock"><div class="panel"><div class="panelHead"><h3>الزيارات — آخر 14 يومًا</h3><span class="badge">Trend</span></div><div id="trendChart" class="chart"></div></div><div class="panel"><div class="panelHead"><h3>الأجهزة</h3><span class="badge">30 يومًا</span></div><div id="devices" class="miniList"></div></div></section><section class="grid">
+    <div class="panel">
+      <div class="panelHead"><h3>أكثر النتائج مشاهدة</h3><span class="badge">Top 10</span></div>
+      <table><thead><tr><th>النتيجة</th><th>المشاهدات</th></tr></thead><tbody id="results"><tr><td colspan="2" class="empty">حمّل البيانات لعرض النتائج</td></tr></tbody></table>
+    </div>
+    <div class="panel">
+      <div class="panelHead"><h3>مصادر الزيارات</h3><span class="badge">30 يومًا</span></div>
+      <table><thead><tr><th>المصدر</th><th>الجلسات</th></tr></thead><tbody id="campaigns"><tr><td colspan="2" class="empty">حمّل البيانات لعرض المصادر</td></tr></tbody></table>
+    </div>
+  </section>
+
+  <section class="grid sectionBlock"><div class="panel"><div class="panelHead"><h3>توزيع التقييمات</h3><span class="badge">1–5</span></div><div id="ratings" class="miniList"></div></div><div class="panel"><div class="panelHead"><h3>أكثر الأسئلة مشاهدة</h3><span class="badge">Top 10</span></div><table><thead><tr><th>السؤال</th><th>المشاهدات</th></tr></thead><tbody id="questions"><tr><td colspan="2" class="empty">حمّل البيانات</td></tr></tbody></table></div></section><section class="panel tickets">
+    <div class="toolbar"><div><h3>تذاكر خدمة العملاء</h3><div style="color:var(--muted);font-size:12px;margin-top:4px">إدارة الرسائل ومتابعة حالتها</div></div><button class="refresh" id="loadTickets">تحديث التذاكر</button></div>
+    <table><thead><tr><th>الحالة</th><th>التصنيف</th><th>الرسالة</th><th>التواصل</th><th>الإجراء</th></tr></thead><tbody id="ticketRows"><tr><td colspan="5" class="empty">لا توجد بيانات محمّلة</td></tr></tbody></table>
+  </section>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const safe=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+const apiBase=()=>$("api").value.trim().replace(/\/$/,"");
+const key=()=>$("key").value;
+function needAuth(){if(!apiBase()||!key()){$("error").textContent="أدخل رابط الـAPI ومفتاح الإدارة.";return false}return true}
+function setLoading(v){$("load").disabled=v;$("load").textContent=v?"جارٍ التحميل…":"تحميل البيانات"}
+function rowsOrEmpty(arr,render,cols){return arr&&arr.length?arr.map(render).join(""):'<tr><td colspan="'+cols+'" class="empty">لا توجد بيانات حتى الآن</td></tr>'}
+async function load(){
+  $("error").textContent=""; if(!needAuth())return; setLoading(true);
+  try{
+    const r=await fetch(apiBase()+"/api/admin/summary",{headers:{authorization:"Bearer "+key()}});
+    if(r.status===401)throw new Error("مفتاح الإدارة غير صحيح");
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    const d=await r.json();
+    $("today").textContent=d.visitors.today;
+    $("week").textContent=d.visitors.days7;
+    $("month").textContent=d.visitors.days30;
+    $("rating").textContent=d.feedback.average_rating??"—";
+    $("ratingCount").textContent=d.feedback.count?d.feedback.count+" تقييم":"لا توجد تقييمات بعد";
+    $("tickets").textContent=d.support.open;    $("conversion").textContent=(d.funnel?.conversion_pct??0)+"%";    const setDelta=(id,v)=>{const el=$(id);if(v==null){el.textContent="لا توجد مقارنة سابقة";el.className="delta";return}el.textContent=(v>0?"+":"")+v+"% عن الفترة السابقة";el.className="delta "+(v>0?"up":v<0?"down":"")};    setDelta("todayDelta",d.visitors.today_change_pct); setDelta("weekDelta",d.visitors.week_change_pct);
+    $("results").innerHTML=rowsOrEmpty(d.top_results,x=>"<tr><td>"+safe(x.result_id)+"</td><td>"+safe(x.views)+"</td></tr>",2);    $("questions").innerHTML=rowsOrEmpty(d.top_questions,x=>"<tr><td>"+safe(x.question_id)+"</td><td>"+safe(x.views)+"</td></tr>",2);    const mx=Math.max(1,...(d.trend||[]).map(x=>Number(x.sessions||0))); $("trendChart").innerHTML=(d.trend||[]).map(x=>"<div class=\"barcol\"><div class=\"bar\" style=\"height:"+Math.max(3,Math.round(Number(x.sessions||0)/mx*110))+"px\"></div><div class=\"barlabel\">"+safe(String(x.day).slice(5))+"</div></div>").join("")||"<div class=\"empty\">لا توجد بيانات بعد</div>";    const devTotal=Math.max(1,(d.devices||[]).reduce((s,x)=>s+Number(x.sessions||0),0)); $("devices").innerHTML=(d.devices||[]).map(x=>"<div class=\"miniRow\"><div><div style=\"display:flex;justify-content:space-between;gap:8px\"><span>"+safe(x.device)+"</span><strong>"+safe(x.sessions)+"</strong></div><div class=\"miniTrack\"><div class=\"miniFill\" style=\"width:"+Math.round(Number(x.sessions||0)/devTotal*100)+"%\"></div></div></div></div>").join("")||"<div class=\"empty\">لا توجد بيانات بعد</div>";    const ratTotal=Math.max(1,(d.feedback?.ratings||[]).reduce((s,x)=>s+Number(x.n||0),0)); $("ratings").innerHTML=[1,2,3,4,5].map(r=>{const x=(d.feedback?.ratings||[]).find(y=>Number(y.rating)===r),n=Number(x?.n||0);return "<div class=\"miniRow\"><div><div style=\"display:flex;justify-content:space-between\"><span>"+r+" ★</span><strong>"+n+"</strong></div><div class=\"miniTrack\"><div class=\"miniFill\" style=\"width:"+Math.round(n/ratTotal*100)+"%\"></div></div></div></div>"}).join("");
+    $("campaigns").innerHTML=rowsOrEmpty(d.campaigns,x=>"<tr><td>"+safe(x.source)+"</td><td>"+safe(x.sessions)+"</td></tr>",2);
+    $("updated").textContent="آخر تحديث: "+new Date().toLocaleTimeString("ar-SA",{hour:"2-digit",minute:"2-digit"});
+    await loadTickets(true);
+  }catch(e){$("error").textContent="تعذر تحميل البيانات: "+e.message}
+  finally{setLoading(false)}
+}
+async function loadTickets(silent=false){
+  if(!needAuth())return;
+  if(!silent)$("error").textContent="";
+  try{
+    const r=await fetch(apiBase()+"/api/admin/tickets",{headers:{authorization:"Bearer "+key()}});
+    if(r.status===401)throw new Error("مفتاح الإدارة غير صحيح");
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    const d=await r.json();
+    $("ticketRows").innerHTML=rowsOrEmpty(d.tickets,t=>"<tr><td>"+safe(t.status)+"</td><td>"+safe(t.category)+"</td><td>"+safe(t.message)+"</td><td>"+safe(t.contact||"—")+"</td><td class='ticketActions'><button data-ticket='"+safe(t.id)+"' data-status='in_progress'>قيد المعالجة</button><button data-ticket='"+safe(t.id)+"' data-status='closed'>إغلاق</button></td></tr>",5);
+  }catch(e){$("error").textContent="تعذر تحميل التذاكر: "+e.message}
+}
+$("ticketRows").addEventListener("click",async e=>{
+  const b=e.target.closest("button[data-ticket]"); if(!b)return;
+  try{
+    const r=await fetch(apiBase()+"/api/admin/tickets/"+encodeURIComponent(b.dataset.ticket),{method:"PATCH",headers:{authorization:"Bearer "+key(),"content-type":"application/json"},body:JSON.stringify({status:b.dataset.status})});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    await loadTickets(true); await load();
+  }catch(err){$("error").textContent="تعذر تحديث التذكرة: "+err.message}
+});
+$("load").addEventListener("click",load);
+$("loadTickets").addEventListener("click",()=>loadTickets(false));
+</script>
+</body></html>

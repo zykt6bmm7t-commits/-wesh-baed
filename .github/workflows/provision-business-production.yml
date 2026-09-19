@@ -1,0 +1,267 @@
+name: Provision v1.3 Business Production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type PROVISION-BUSINESS-PRODUCTION exactly'
+        required: true
+        type: string
+  push:
+    branches:
+      - dev-v1.3-business
+    paths:
+      - ".github/workflows/provision-business-production.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wesh-baed-business-production
+  cancel-in-progress: false
+
+jobs:
+  provision:
+    if: ${{ github.event_name == 'push' || inputs.confirm == 'PROVISION-BUSINESS-PRODUCTION' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: business
+
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+        with:
+          ref: dev-v1.3-business
+          fetch-depth: 0
+         
+
+      - name: Verify FINAL development head
+        working-directory: .
+        run: |
+          EXPECTED="d364da1130112cadedf19a4a66fc8f6fb605a009"
+          ACTUAL="$(git rev-parse HEAD)"
+          echo "Expected FINAL app HEAD: $EXPECTED"
+          echo "Workflow checkout HEAD: $ACTUAL"
+          git merge-base --is-ancestor "$EXPECTED" "$ACTUAL" || {
+            echo "Required FINAL app commit is not an ancestor of current branch HEAD."
+            exit 1
+          }
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Validate production secrets
+        env:
+          PROD_ADMIN_API_KEY: ${{ secrets.PROD_ADMIN_API_KEY }}
+          PROD_ADMIN_PASSWORD: ${{ secrets.PROD_ADMIN_PASSWORD }}
+          PROD_ADMIN_SESSION_SECRET: ${{ secrets.PROD_ADMIN_SESSION_SECRET }}
+          PROD_TURNSTILE_SECRET_KEY: ${{ secrets.PROD_TURNSTILE_SECRET_KEY }}
+          PROD_TURNSTILE_SITE_KEY: ${{ secrets.PROD_TURNSTILE_SITE_KEY }}
+        run: |
+          for name in PROD_ADMIN_API_KEY PROD_ADMIN_PASSWORD PROD_ADMIN_SESSION_SECRET PROD_TURNSTILE_SECRET_KEY PROD_TURNSTILE_SITE_KEY; do
+            eval "value=\${$name}"
+            if [ -z "$value" ]; then
+              echo "$name is missing."
+              exit 1
+            fi
+          done
+          echo "Production secret presence check: PASS"
+
+      - name: Find or create production D1
+        id: d1
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          LIST="$(npx wrangler d1 list --json)"
+          DB_ID="$(node -e 'const a=JSON.parse(process.argv[1]);const x=a.find(v=>v.name==="wesh-baed-business");if(x)process.stdout.write(x.uuid||x.id||"")' "$LIST")"
+          if [ -z "$DB_ID" ]; then
+            echo "Creating production D1: wesh-baed-business"
+            npx wrangler d1 create wesh-baed-business
+            LIST="$(npx wrangler d1 list --json)"
+            DB_ID="$(node -e 'const a=JSON.parse(process.argv[1]);const x=a.find(v=>v.name==="wesh-baed-business");if(x)process.stdout.write(x.uuid||x.id||"")' "$LIST")"
+          else
+            echo "Production D1 already exists."
+          fi
+          if [ -z "$DB_ID" ]; then
+            echo "Could not resolve production D1 database id."
+            exit 1
+          fi
+          echo "database_id=$DB_ID" >> "$GITHUB_OUTPUT"
+          echo "Production D1 resolved."
+
+      - name: Generate ephemeral production config
+        env:
+          DATABASE_ID: ${{ steps.d1.outputs.database_id }}
+          PROD_TURNSTILE_SITE_KEY: ${{ secrets.PROD_TURNSTILE_SITE_KEY }}
+        run: |
+          node - <<'NODE'
+          const fs=require("fs");
+          const db=process.env.DATABASE_ID;
+          if(!db) throw new Error("DATABASE_ID missing");
+          const cfg={
+            "$schema":"node_modules/wrangler/config-schema.json",
+            name:"wesh-baed-business-api",
+            main:"worker/src/index.js",
+            compatibility_date:"2026-09-18",
+            workers_dev:true,
+            vars:{
+              ENVIRONMENT:"production",
+              ADMIN_USERNAME:"admin",
+              TURNSTILE_BYPASS:"false",
+              ALLOWED_ORIGINS:"https://wesh-baed.97tn6h2yzj.workers.dev",
+              TURNSTILE_HOSTNAME:"wesh-baed.97tn6h2yzj.workers.dev",
+              TURNSTILE_SITE_KEY:process.env.PROD_TURNSTILE_SITE_KEY
+            },
+            d1_databases:[{
+              binding:"DB",
+              database_name:"wesh-baed-business",
+              database_id:db,
+              migrations_dir:"migrations"
+            }]
+          };
+          fs.writeFileSync("wrangler.production.runtime.jsonc",JSON.stringify(cfg,null,2));
+          console.log("Ephemeral production config generated.");
+          NODE
+
+      - name: Apply production D1 migrations
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler d1 migrations apply wesh-baed-business --remote --config wrangler.production.runtime.jsonc
+
+      - name: Deploy production Business Worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx wrangler deploy --config wrangler.production.runtime.jsonc
+
+      - name: Configure production secrets
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PROD_ADMIN_API_KEY: ${{ secrets.PROD_ADMIN_API_KEY }}
+          PROD_ADMIN_PASSWORD: ${{ secrets.PROD_ADMIN_PASSWORD }}
+          PROD_ADMIN_SESSION_SECRET: ${{ secrets.PROD_ADMIN_SESSION_SECRET }}
+          PROD_TURNSTILE_SECRET_KEY: ${{ secrets.PROD_TURNSTILE_SECRET_KEY }}
+        run: |
+          printf '%s' "$PROD_ADMIN_API_KEY" | npx wrangler secret put ADMIN_API_KEY --config wrangler.production.runtime.jsonc
+          printf '%s' "$PROD_ADMIN_PASSWORD" | npx wrangler secret put ADMIN_PASSWORD --config wrangler.production.runtime.jsonc
+          printf '%s' "$PROD_ADMIN_SESSION_SECRET" | npx wrangler secret put ADMIN_SESSION_SECRET --config wrangler.production.runtime.jsonc
+          printf '%s' "$PROD_TURNSTILE_SECRET_KEY" | npx wrangler secret put TURNSTILE_SECRET_KEY --config wrangler.production.runtime.jsonc
+          echo "Production Worker secrets configured."
+
+      - name: Production runtime health gate
+        run: |
+          node - <<'NODE'
+          const base="https://wesh-baed-business-api.97tn6h2yzj.workers.dev";
+          const r=await fetch(base+"/api/health");
+          const text=await r.text();
+          if(!r.ok) throw new Error("health_failed:"+r.status+":"+text);
+          const d=JSON.parse(text);
+          if(d.ok!==true||d.service!=="wesh-baed-business-api") throw new Error("health_contract_failed");
+          console.log("PRODUCTION_HEALTH_GATE_PASS");
+          NODE
+
+      - name: Production admin session gate
+        env:
+          PROD_ADMIN_PASSWORD: ${{ secrets.PROD_ADMIN_PASSWORD }}
+        run: |
+          node - <<'NODE'
+          const base="https://wesh-baed-business-api.97tn6h2yzj.workers.dev";
+          const password=process.env.PROD_ADMIN_PASSWORD||"";
+          async function req(path,init={}){
+            const r=await fetch(base+path,{redirect:"manual",...init});
+            const text=await r.text();
+            let data=null; try{data=JSON.parse(text)}catch{}
+            return {r,text,data};
+          }
+          const loginPage=await req("/admin");
+          if(loginPage.r.status!==200||!loginPage.text.includes('id="login"')) throw new Error("login_page_failed");
+          const bad=await req("/api/admin/login",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({username:"admin",password:password+"-wrong"})});
+          if(bad.r.status!==401) throw new Error("invalid_login_not_rejected");
+          const ok=await req("/api/admin/login",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({username:"admin",password})});
+          if(!ok.r.ok||ok.data?.ok!==true) throw new Error("valid_login_failed");
+          const sc=ok.r.headers.get("set-cookie")||"";
+          for(const f of ["wb_admin_session=","HttpOnly","Secure","SameSite=Strict","Max-Age=43200"]) if(!sc.includes(f)) throw new Error("cookie_flag_missing:"+f);
+          const cookie=sc.split(";")[0];
+          for(const path of ["/api/admin/summary","/api/admin/feedback?limit=5","/api/admin/tickets?limit=5"]){
+            const x=await req(path,{headers:{cookie}});
+            if(!x.r.ok) throw new Error("session_endpoint_failed:"+path+":"+x.r.status);
+          }
+          const logout=await req("/api/admin/logout",{method:"POST",headers:{cookie}});
+          if(!logout.r.ok||!(logout.r.headers.get("set-cookie")||"").includes("Max-Age=0")) throw new Error("logout_failed");
+          console.log("PRODUCTION_ADMIN_SESSION_GATE_PASS");
+          NODE
+
+      - name: Production security gate
+        env:
+          PROD_ADMIN_API_KEY: ${{ secrets.PROD_ADMIN_API_KEY }}
+        run: |
+          node - <<'NODE'
+          const base="https://wesh-baed-business-api.97tn6h2yzj.workers.dev";
+          const key=process.env.PROD_ADMIN_API_KEY||"";
+          const auth={authorization:"Bearer "+key};
+          const secR=await fetch(base+"/api/admin/security",{headers:auth});
+          const sec=await secR.json();
+          if(!secR.ok) throw new Error("security_endpoint_failed");
+          if(sec.environment!=="production") throw new Error("environment_not_production:"+sec.environment);
+          if(sec.turnstile?.bypass!==false) throw new Error("turnstile_bypass_enabled");
+          if(sec.turnstile?.secret_configured!==true) throw new Error("turnstile_secret_missing");
+          if(sec.turnstile?.hostname_locked!==true) throw new Error("turnstile_hostname_not_locked");
+          for(const [path,body] of [
+            ["/api/feedback",{session_id:"production-gate",result_id:"PRODUCTION_GATE",rating:5,helpful:true}],
+            ["/api/support",{session_id:"production-gate",category:"technical",message:"production security gate"}]
+          ]){
+            const r=await fetch(base+path,{method:"POST",headers:{"content-type":"application/json","origin":"https://wesh-baed.97tn6h2yzj.workers.dev"},body:JSON.stringify(body)});
+            const d=await r.json();
+            if(r.status!==403||d.error!=="verification_failed") throw new Error("turnstile_rejection_failed:"+path+":"+r.status);
+          }
+          console.log("PRODUCTION_SECURITY_GATE_PASS");
+          NODE
+
+      - name: Final production frontend gate
+        env:
+          PROD_TURNSTILE_SITE_KEY: ${{ secrets.PROD_TURNSTILE_SITE_KEY }}
+        run: |
+          node - <<'NODE'
+          (async()=>{
+          const fs=require("fs");
+          const html=fs.readFileSync("../index.html","utf8");
+          const api="https://wesh-baed-business-api.97tn6h2yzj.workers.dev";
+          const origin="https://wesh-baed.97tn6h2yzj.workers.dev";
+          const expectedKey=process.env.PROD_TURNSTILE_SITE_KEY||"";
+          for(const required of [
+            "location.hostname==='wesh-baed.97tn6h2yzj.workers.dev'",
+            api,
+            "/api/config",
+            "getBusinessTurnstileSitekey"
+          ]) if(!html.includes(required)) throw new Error("frontend_wiring_missing:"+required);
+          if(html.includes("window.WESH_BAED_TURNSTILE_SITEKEY||'"+expectedKey+"'")) throw new Error("production_site_key_hardcoded");
+          const cfgR=await fetch(api+"/api/config",{headers:{origin}});
+          const cfgText=await cfgR.text();
+          if(!cfgR.ok) throw new Error("config_failed:"+cfgR.status+":"+cfgText);
+          const cfg=JSON.parse(cfgText);
+          if(cfg.service!=="wesh-baed-business-api") throw new Error("config_service_mismatch");
+          if(cfg.environment!=="production") throw new Error("config_environment_mismatch");
+          if(!cfg.turnstile_site_key||cfg.turnstile_site_key!==expectedKey) throw new Error("config_site_key_mismatch");
+          if("turnstile_secret_key" in cfg||"secret" in cfg) throw new Error("config_exposes_secret");
+          const acao=cfgR.headers.get("access-control-allow-origin");
+          if(acao!==origin) throw new Error("production_cors_mismatch:"+String(acao));
+          console.log("FINAL_PRODUCTION_FRONTEND_GATE_PASS");
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+
+      - name: Production provisioning summary
+        run: |
+          echo "BUSINESS_PRODUCTION_PROVISIONING_PASS"
+          echo "Worker: wesh-baed-business-api"
+          echo "D1: wesh-baed-business"
+          echo "Main/Production app worker was NOT modified."
