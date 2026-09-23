@@ -10,7 +10,7 @@
 - Legal Decisions المجمعة: 59
 - STALE RISK Results: 130
 - Source links tested: 621
-- Broken Sources: 1
+- Broken Sources: 0
 - Superseded Sources: 0
 
 ## أهم 10 قرارات للبدء
