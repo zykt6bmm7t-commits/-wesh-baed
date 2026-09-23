@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-09-23",
+  "input": "index.html",
+  "counts": {
+    "questions": 305,
+    "options": 1296,
+    "results": 646,
+    "sources": 621
+  },
+  "verification": {
+    "STALE RISK": 130,
+    "PARTIALLY VERIFIED": 147,
+    "INFERENCE": 130,
+    "HUMAN DECISION": 51,
+    "VERIFIED": 165,
+    "PROCEDURAL GUIDANCE": 23
+  },
+  "risk": {
+    "CRITICAL": 28,
+    "HIGH": 372,
+    "MEDIUM": 51,
+    "LOW": 195
+  },
+  "needs_lawyer": 564,
+  "quick_approval": 82,
+  "top20": [
+    "R-FAM-CUSTODY-LETTER",
+    "R-FAM-VISIT-EXEC",
+    "R-COMM-IP-COPYRIGHT-ENFORCEMENT",
+    "R-COMM-IP-PATENT-ENFORCEMENT",
+    "R-COMM-IP-SERVICE",
+    "R-ADMIN-COMPENSATION",
+    "R-ADMIN-GOV-CONTRACT",
+    "R-ADMIN-SERVICE-RIGHTS",
+    "R-GOV-EMPLOYEE-ADMIN",
+    "R-JUDGMENT-DEADLINE-REVIEW",
+    "R-JUDGMENT-OBJECT",
+    "R-PROC-CASSATION-STAY",
+    "R-SP-ADMIN-TIMING-REVIEW",
+    "R-SP-CMA-ADMIN-FOLLOWUP",
+    "R-SP-CMA-ADMIN-GRIEVANCE",
+    "R-CIVIL-FAMILY-RECORD",
+    "R-PASSPORT-VISIT-DEPART",
+    "R-PASSPORT-VISIT-EXTEND",
+    "R-SP-BANKING-COMMITTEE",
+    "R-SP-CMA-COMPLAINT"
+  ]
+}

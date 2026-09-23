@@ -1,0 +1,12 @@
+{
+  "rows": 646,
+  "unique_ids": 646,
+  "missing_columns": 0,
+  "duplicate_ids": 0,
+  "empty_paths": 0,
+  "empty_sources": 0,
+  "empty_lawyer_questions": 0,
+  "invalid_risk": 0,
+  "invalid_verification": 0,
+  "sort_errors": 0
+}
