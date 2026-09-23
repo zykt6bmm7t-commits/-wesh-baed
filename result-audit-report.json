@@ -3,35 +3,35 @@
   "counts": {
     "questions": 305,
     "options": 1296,
-    "results": 636,
+    "results": 646,
     "sources": 621
   },
   "coverage": {
-    "current_situation": 636,
-    "ui_current_situation": 636,
-    "next_step": 636,
-    "ui_next_step": 636,
-    "action_required": 631,
-    "ui_action_required": 636,
-    "authority": 636,
-    "court": 232,
+    "current_situation": 646,
+    "ui_current_situation": 646,
+    "next_step": 646,
+    "ui_next_step": 646,
+    "action_required": 639,
+    "ui_action_required": 646,
+    "authority": 646,
+    "court": 234,
     "court_or_authority": 19,
-    "service": 380,
-    "procedure_type": 474,
-    "requirements": 635,
-    "ui_requirements": 635,
-    "documents": 361,
-    "deadline": 352,
-    "costs": 350,
-    "what_happens_next": 630,
-    "ui_what_happens_next": 636,
-    "common_mistake": 439,
-    "lawyer_boundary": 635,
-    "ui_caution": 636,
-    "relevant_articles": 166,
+    "service": 386,
+    "procedure_type": 484,
+    "requirements": 645,
+    "ui_requirements": 645,
+    "documents": 365,
+    "deadline": 355,
+    "costs": 353,
+    "what_happens_next": 640,
+    "ui_what_happens_next": 646,
+    "common_mistake": 443,
+    "lawyer_boundary": 644,
+    "ui_caution": 646,
+    "relevant_articles": 167,
     "rule_ref": 129,
-    "source_id": 636,
-    "ui_official_source": 636
+    "source_id": 646,
+    "ui_official_source": 646
   },
   "qa": {
     "broken_next_id": 0,
@@ -41,10 +41,12 @@
     "missing_source_id": 0,
     "duplicate_questions": 0,
     "duplicate_options": 0,
+    "immediate_two_node_loops": 0,
+    "duplicate_destinations": 0,
     "results_without_action": 0,
     "results_without_authority": 0,
     "expert_bureau_as_authority": 0,
-    "source_title_in_authority": 4
+    "source_title_in_authority": 0
   },
   "offenders": {
     "broken": [],
@@ -55,12 +57,9 @@
     "noAction": [],
     "noAuthority": [],
     "expertBureauAsAuthority": [],
-    "sourceTitleInAuthority": [
-      "R-COMM-FRAUD-GATE",
-      "R-DIGITAL-NAFATH-SUPPORT",
-      "R-DIGITAL-TAWAKKALNA-SUPPORT",
-      "R-CIVIL-REALRIGHT-REGISTRATION"
-    ],
-    "duplicateOptions": []
+    "sourceTitleInAuthority": [],
+    "duplicateOptions": [],
+    "immediateLoops": [],
+    "duplicateDestinations": []
   }
 }
