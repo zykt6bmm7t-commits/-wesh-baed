@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-09-23",
+  "status": "PRE-LEGAL REVIEW COMPLETE — AWAITING LICENSED SAUDI LAWYER APPROVAL",
+  "critical": 28,
+  "high": 372,
+  "legal_decisions": 59,
+  "stale_risk": 130,
+  "sources_tested": 621,
+  "source_counts": {
+    "ACTIVE": 408,
+    "BROKEN": 6,
+    "REDIRECTED": 16,
+    "REQUIRES HUMAN CHECK": 191
+  },
+  "specialty_high_counts": {
+    "A": 53,
+    "B": 80,
+    "C": 150,
+    "D": 16,
+    "E": 21,
+    "F": 5,
+    "G": 1,
+    "H": 1,
+    "I": 5,
+    "J": 0,
+    "K": 2,
+    "L": 5,
+    "M": 33
+  }
+}

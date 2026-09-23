@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "critical_cards": 28,
+  "high_results": 372,
+  "legal_decisions": 59,
+  "decision_results_covered": 400,
+  "stale_results_covered": 130,
+  "specialty_files": 13,
+  "sources_tested": 621,
+  "failures": []
+}
