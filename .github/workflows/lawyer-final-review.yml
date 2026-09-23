@@ -15,6 +15,7 @@ on:
       - scripts/search_hardening.js
       - scripts/security_hardening.js
       - scripts/build_legal_report_viewer.js
+      - scripts/report_viewer_qa.js
       - .github/workflows/lawyer-final-review.yml
 
 permissions:
@@ -54,6 +55,8 @@ jobs:
         run: node scripts/non_legal_report.js
       - name: Build full legal report viewer
         run: node scripts/build_legal_report_viewer.js
+      - name: Validate full legal report viewer
+        run: node scripts/report_viewer_qa.js
       - name: Validate legal master integrity
         run: node scripts/legal_approval_qa.js
       - name: Commit generated packet
