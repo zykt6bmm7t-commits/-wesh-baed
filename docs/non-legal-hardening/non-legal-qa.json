@@ -27,15 +27,15 @@
     "analytics_detected": false,
     "forms": 0,
     "secrets_detected": [],
-    "inner_html_assignments": 4,
+    "inner_html_assignments": 5,
     "escaping_function_present": true
   },
   "release": {
     "candidate_matches_index": true,
     "manifest_link_relative": true,
     "service_worker_registered": false,
-    "index_bytes": 5397505,
-    "candidate_bytes": 5397505
+    "index_bytes": 5396977,
+    "candidate_bytes": 5396977
   },
   "pass": true
 }

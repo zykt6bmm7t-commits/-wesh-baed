@@ -15,6 +15,8 @@ on:
       - scripts/ui_hardening.js
       - scripts/search_hardening.js
       - scripts/security_hardening.js
+      - scripts/prelaunch_safe_fixes.js
+      - scripts/prelaunch_technical_qa.js
       - scripts/build_legal_report_viewer.js
       - scripts/report_viewer_qa.js
       - .github/workflows/lawyer-final-review.yml
@@ -44,6 +46,7 @@ jobs:
           node scripts/ui_hardening.js
           node scripts/search_hardening.js
           node scripts/security_hardening.js
+          node scripts/prelaunch_safe_fixes.js
       - name: Audit all official source links
         run: node scripts/source_link_audit.js
       - name: Validate official source audit integrity
@@ -54,6 +57,8 @@ jobs:
         run: node scripts/lawyer_handoff_qa.js
       - name: Validate non-legal hardening
         run: node scripts/non_legal_qa.js
+      - name: Validate pre-launch technical QA
+        run: node scripts/prelaunch_technical_qa.js
       - name: Generate non-legal report
         run: node scripts/non_legal_report.js
       - name: Build full legal report viewer
@@ -66,7 +71,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html wesh_baed_sale_final_candidate.html docs/LAWYER_FINAL_REVIEW_PACKET docs/non-legal-hardening docs/SOURCE_LINK_AUDIT.csv docs/SOURCE_CLEANUP_REPORT.md docs/source-link-audit-qa.json reports/legal-approval-master
+          git add index.html wesh_baed_sale_final_candidate.html PRE_LAUNCH_TECHNICAL_QA.md docs/LAWYER_FINAL_REVIEW_PACKET docs/non-legal-hardening docs/pre-launch docs/pre-sale-drafts docs/ORPHAN_SOURCES.csv docs/SOURCE_LINK_AUDIT.csv docs/SOURCE_CLEANUP_REPORT.md docs/source-link-audit-qa.json reports/legal-approval-master
           if git diff --cached --quiet; then
             echo "Packet already current"
           else

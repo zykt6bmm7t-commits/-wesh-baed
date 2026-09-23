@@ -1,0 +1,1395 @@
+{
+  "generated_at": "2026-09-23T17:19:19.833Z",
+  "head_before": "06fc97c6682f86e1fb72782fd98ed9b4f5120ce3",
+  "counts": {
+    "questions": 305,
+    "options": 1296,
+    "results": 646,
+    "sources": 621
+  },
+  "tests": {
+    "total_assertions": 457,
+    "journey_scenarios": 30,
+    "journey_assertions": 376,
+    "search_cases": 39,
+    "viewport_profiles_static": [
+      "320x568",
+      "390x844",
+      "393x852",
+      "430x932",
+      "1366x768",
+      "1440x900",
+      "1920x1080"
+    ],
+    "error_cases": [
+      "no-results",
+      "special-characters",
+      "500-character-cap",
+      "corrupt-localStorage",
+      "unavailable-localStorage",
+      "refresh-resume",
+      "browser-back-forward",
+      "offline-not-supported",
+      "missing-optional-result-fields"
+    ]
+  },
+  "structural": {
+    "broken_next_id": 0,
+    "unreachable_questions": 0,
+    "unreachable_results": 0,
+    "dead_ends": 0,
+    "missing_source_id": 0,
+    "broken_source_references": 0,
+    "duplicate_questions": 0,
+    "duplicate_options": 0,
+    "javascript_syntax_errors": 0
+  },
+  "journeys": {
+    "status": "PASS",
+    "failures": [],
+    "scenarios": [
+      {
+        "number": 1,
+        "group": "أبي أرفع قضية جديدة أو أعرف المحكمة المناسبة",
+        "result_id": "R-ADMIN-APPEAL-DEADLINE",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 13,
+            "label": "أبي أرفع قضية جديدة أو أعرف المحكمة المناسبة",
+            "next_id": "Q610"
+          },
+          {
+            "question_id": "Q610",
+            "option_index": 4,
+            "label": "قرار أو عقد أو حق ضد جهة حكومية",
+            "next_id": "Q608"
+          },
+          {
+            "question_id": "Q608",
+            "option_index": 8,
+            "label": "أبي أعرف مهلة الاعتراض على الحكم الإداري",
+            "next_id": "R-ADMIN-APPEAL-DEADLINE"
+          }
+        ]
+      },
+      {
+        "number": 2,
+        "group": "أحتاج توثيق أو خدمة بدون نزاع",
+        "result_id": "R-DOCUMENTATION-SERVICE-CHECK",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 9,
+            "label": "أحتاج توثيق أو خدمة بدون نزاع",
+            "next_id": "Q100"
+          },
+          {
+            "question_id": "Q100",
+            "option_index": 6,
+            "label": "ما أعرف اسم الخدمة",
+            "next_id": "R-DOCUMENTATION-SERVICE-CHECK"
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "group": "أحوال شخصية",
+        "result_id": "R-DV-CRIMINAL-PROTECTION",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 5,
+            "label": "أحوال شخصية",
+            "next_id": "Q060"
+          },
+          {
+            "question_id": "Q060",
+            "option_index": 7,
+            "label": "إيذاء أو عنف أو تهديد داخل الأسرة",
+            "next_id": "Q263"
+          },
+          {
+            "question_id": "Q263",
+            "option_index": 2,
+            "label": "الواقعة قد تكون جريمة وأحتاج بلاغًا وحماية",
+            "next_id": "R-DV-CRIMINAL-PROTECTION"
+          }
+        ]
+      },
+      {
+        "number": 4,
+        "group": "بلاغ أو قضية جنائية",
+        "result_id": "R-CRIMINAL-STATUS-CHECK",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 8,
+            "label": "بلاغ أو قضية جنائية",
+            "next_id": "Q090"
+          },
+          {
+            "question_id": "Q090",
+            "option_index": 6,
+            "label": "لا أعرف صفتي في البلاغ أو القضية",
+            "next_id": "R-CRIMINAL-STATUS-CHECK"
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "group": "بنك/تمويل/تأمين/زكاة/ضريبة/اتصالات/جهة حكومية",
+        "result_id": "R-SP-CYBER-REG-VIOLATION",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 10,
+            "label": "بنك/تمويل/تأمين/زكاة/ضريبة/اتصالات/جهة حكومية",
+            "next_id": "Q110"
+          },
+          {
+            "question_id": "Q110",
+            "option_index": 0,
+            "label": "جهة حكومية أو تنظيمية",
+            "next_id": "Q266"
+          },
+          {
+            "question_id": "Q266",
+            "option_index": 2,
+            "label": "مخالفة متطلبات أو ضوابط الأمن السيبراني لدى جهة",
+            "next_id": "R-SP-CYBER-REG-VIOLATION"
+          }
+        ]
+      },
+      {
+        "number": 6,
+        "group": "شركة أو نشاط تجاري",
+        "result_id": "R-COMM-JURISDICTION-DEEP",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 7,
+            "label": "شركة أو نشاط تجاري",
+            "next_id": "Q080"
+          },
+          {
+            "question_id": "Q080",
+            "option_index": 0,
+            "label": "مطالبة أو نزاع أو ورقة تجارية",
+            "next_id": "Q270"
+          },
+          {
+            "question_id": "Q270",
+            "option_index": 4,
+            "label": "أبي أتأكد هل المحكمة التجارية مختصة أصلًا",
+            "next_id": "R-COMM-JURISDICTION-DEEP"
+          }
+        ]
+      },
+      {
+        "number": 7,
+        "group": "صدر حكم",
+        "result_id": "R-JUDGMENT-SUPREME-STATUS",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 2,
+            "label": "صدر حكم",
+            "next_id": "Q030"
+          },
+          {
+            "question_id": "Q030",
+            "option_index": 2,
+            "label": "صدر قرار من المحكمة العليا أو نُقض الحكم وأعيدت القضية",
+            "next_id": "R-JUDGMENT-SUPREME-STATUS"
+          }
+        ]
+      },
+      {
+        "number": 8,
+        "group": "عقار أو إيجار",
+        "result_id": "R-BROKERAGE-REAL",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 6,
+            "label": "عقار أو إيجار",
+            "next_id": "Q070"
+          },
+          {
+            "question_id": "Q070",
+            "option_index": 7,
+            "label": "وساطة عقارية أو عمولة وسيط",
+            "next_id": "Q260"
+          },
+          {
+            "question_id": "Q260",
+            "option_index": 0,
+            "label": "وساطة عقارية في بيع أو إيجار عقار",
+            "next_id": "R-BROKERAGE-REAL"
+          }
+        ]
+      },
+      {
+        "number": 9,
+        "group": "عندي طلب تنفيذ أو إجراء تنفيذ",
+        "result_id": "R-EXEC-QUERY",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 3,
+            "label": "عندي طلب تنفيذ أو إجراء تنفيذ",
+            "next_id": "Q040"
+          },
+          {
+            "question_id": "Q040",
+            "option_index": 2,
+            "label": "أبغى أعرف حالة طلب التنفيذ فقط",
+            "next_id": "R-EXEC-QUERY"
+          }
+        ]
+      },
+      {
+        "number": 10,
+        "group": "عندي مشكلة في إجراءات الدعوى أو الاختصاص أو الاعتراض",
+        "result_id": "R-PROC-ABSENCE",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 12,
+            "label": "عندي مشكلة في إجراءات الدعوى أو الاختصاص أو الاعتراض",
+            "next_id": "Q601"
+          },
+          {
+            "question_id": "Q601",
+            "option_index": 1,
+            "label": "المدعى عليه ما حضر",
+            "next_id": "R-PROC-ABSENCE"
+          }
+        ]
+      },
+      {
+        "number": 11,
+        "group": "عندي مشكلة في الإثبات أو الأدلة",
+        "result_id": "R-EVID-ADMISSION",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 11,
+            "label": "عندي مشكلة في الإثبات أو الأدلة",
+            "next_id": "Q600"
+          },
+          {
+            "question_id": "Q600",
+            "option_index": 1,
+            "label": "عندي إقرار من الطرف الآخر",
+            "next_id": "R-EVID-ADMISSION"
+          }
+        ]
+      },
+      {
+        "number": 12,
+        "group": "لي مبلغ أو حق مالي عند شخص أو جهة",
+        "result_id": "R-CIVIL-CONTRACT-DAMAGES",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 0,
+            "label": "لي مبلغ أو حق مالي عند شخص أو جهة",
+            "next_id": "Q010"
+          },
+          {
+            "question_id": "Q010",
+            "option_index": 7,
+            "label": "تعويض أو إخلال بعقد أو استرداد مبلغ غير مستحق",
+            "next_id": "Q500"
+          },
+          {
+            "question_id": "Q500",
+            "option_index": 1,
+            "label": "العقد ما تنفذ أو تأخر وأبي تعويض",
+            "next_id": "R-CIVIL-CONTRACT-DAMAGES"
+          }
+        ]
+      },
+      {
+        "number": 13,
+        "group": "مشكلة عمل أو راتب أو فصل",
+        "result_id": "R-DOMESTIC-ABSENCE",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 4,
+            "label": "مشكلة عمل أو راتب أو فصل",
+            "next_id": "Q050"
+          },
+          {
+            "question_id": "Q050",
+            "option_index": 1,
+            "label": "عند أسرة كعامل/عاملة منزلية أو سائق ونحو ذلك",
+            "next_id": "Q067"
+          },
+          {
+            "question_id": "Q067",
+            "option_index": 5,
+            "label": "العامل المنزلي انقطع / تغيب عن العمل",
+            "next_id": "R-DOMESTIC-ABSENCE"
+          }
+        ]
+      },
+      {
+        "number": 14,
+        "group": "وصلني شيء في ناجز",
+        "result_id": "R-CASE-E-LITIGATION",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 1,
+            "label": "وصلني شيء في ناجز",
+            "next_id": "Q020"
+          },
+          {
+            "question_id": "Q020",
+            "option_index": 2,
+            "label": "وصلني موعد جلسة",
+            "next_id": "Q024"
+          },
+          {
+            "question_id": "Q024",
+            "option_index": 3,
+            "label": "عندي جلسة ترافع كتابي/الدائرة طالبة مني رد إلكتروني",
+            "next_id": "R-CASE-E-LITIGATION"
+          }
+        ]
+      },
+      {
+        "number": 15,
+        "group": "أبي أرفع قضية جديدة أو أعرف المحكمة المناسبة",
+        "result_id": "R-ADMIN-CANCEL-DECISION",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 13,
+            "label": "أبي أرفع قضية جديدة أو أعرف المحكمة المناسبة",
+            "next_id": "Q610"
+          },
+          {
+            "question_id": "Q610",
+            "option_index": 4,
+            "label": "قرار أو عقد أو حق ضد جهة حكومية",
+            "next_id": "Q608"
+          },
+          {
+            "question_id": "Q608",
+            "option_index": 1,
+            "label": "إلغاء قرار إداري نهائي",
+            "next_id": "R-ADMIN-CANCEL-DECISION"
+          }
+        ]
+      },
+      {
+        "number": 16,
+        "group": "أحتاج توثيق أو خدمة بدون نزاع",
+        "result_id": "R-DOC-DEBT-ACK",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 9,
+            "label": "أحتاج توثيق أو خدمة بدون نزاع",
+            "next_id": "Q100"
+          },
+          {
+            "question_id": "Q100",
+            "option_index": 1,
+            "label": "إقرار مالي",
+            "next_id": "Q153"
+          },
+          {
+            "question_id": "Q153",
+            "option_index": 0,
+            "label": "إقرار بدين",
+            "next_id": "R-DOC-DEBT-ACK"
+          }
+        ]
+      },
+      {
+        "number": 17,
+        "group": "أحوال شخصية",
+        "result_id": "R-DV-IMMEDIATE",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 5,
+            "label": "أحوال شخصية",
+            "next_id": "Q060"
+          },
+          {
+            "question_id": "Q060",
+            "option_index": 7,
+            "label": "إيذاء أو عنف أو تهديد داخل الأسرة",
+            "next_id": "Q263"
+          },
+          {
+            "question_id": "Q263",
+            "option_index": 0,
+            "label": "يوجد خطر مباشر الآن أو تهديد عاجل للسلامة",
+            "next_id": "R-DV-IMMEDIATE"
+          }
+        ]
+      },
+      {
+        "number": 18,
+        "group": "بلاغ أو قضية جنائية",
+        "result_id": "R-CRIM-ARCHIVED",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 8,
+            "label": "بلاغ أو قضية جنائية",
+            "next_id": "Q090"
+          },
+          {
+            "question_id": "Q090",
+            "option_index": 3,
+            "label": "أُفرج عني أو قيل حُفظت القضية",
+            "next_id": "Q137"
+          },
+          {
+            "question_id": "Q137",
+            "option_index": 0,
+            "label": "عندي قرار/إشعار بحفظ القضية",
+            "next_id": "R-CRIM-ARCHIVED"
+          }
+        ]
+      },
+      {
+        "number": 19,
+        "group": "بنك/تمويل/تأمين/زكاة/ضريبة/اتصالات/جهة حكومية",
+        "result_id": "R-SP-NAZAHA-CORRUPTION",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 10,
+            "label": "بنك/تمويل/تأمين/زكاة/ضريبة/اتصالات/جهة حكومية",
+            "next_id": "Q110"
+          },
+          {
+            "question_id": "Q110",
+            "option_index": 0,
+            "label": "جهة حكومية أو تنظيمية",
+            "next_id": "Q266"
+          },
+          {
+            "question_id": "Q266",
+            "option_index": 9,
+            "label": "نزاهة / بلاغ فساد إداري أو مالي",
+            "next_id": "R-SP-NAZAHA-CORRUPTION"
+          }
+        ]
+      },
+      {
+        "number": 20,
+        "group": "شركة أو نشاط تجاري",
+        "result_id": "R-COMM-ARBITRATION-ENFORCE",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 7,
+            "label": "شركة أو نشاط تجاري",
+            "next_id": "Q080"
+          },
+          {
+            "question_id": "Q080",
+            "option_index": 3,
+            "label": "ما أعرف نوع النزاع التجاري",
+            "next_id": "Q607"
+          },
+          {
+            "question_id": "Q607",
+            "option_index": 10,
+            "label": "اختصاص المحكمة التجارية أو تنفيذ/بطلان حكم تحكيم",
+            "next_id": "Q612"
+          },
+          {
+            "question_id": "Q612",
+            "option_index": 2,
+            "label": "صدر حكم تحكيم وأبي تنفيذه",
+            "next_id": "R-COMM-ARBITRATION-ENFORCE"
+          }
+        ]
+      },
+      {
+        "number": 21,
+        "group": "صدر حكم",
+        "result_id": "R-JUDGMENT-APPEAL-STATUS",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 2,
+            "label": "صدر حكم",
+            "next_id": "Q030"
+          },
+          {
+            "question_id": "Q030",
+            "option_index": 1,
+            "label": "صدر حكم استئناف",
+            "next_id": "Q035"
+          },
+          {
+            "question_id": "Q035",
+            "option_index": 0,
+            "label": "أبي أتابع نتيجة الاستئناف فقط",
+            "next_id": "R-JUDGMENT-APPEAL-STATUS"
+          }
+        ]
+      },
+      {
+        "number": 22,
+        "group": "عقار أو إيجار",
+        "result_id": "R-REAL-CONTRACT-ARBITRATION",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 6,
+            "label": "عقار أو إيجار",
+            "next_id": "Q070"
+          },
+          {
+            "question_id": "Q070",
+            "option_index": 6,
+            "label": "مقاولات / بناء / أعمال هندسية",
+            "next_id": "Q235"
+          },
+          {
+            "question_id": "Q235",
+            "option_index": 0,
+            "label": "نعم، فيه شرط أو اتفاق تحكيم",
+            "next_id": "R-REAL-CONTRACT-ARBITRATION"
+          }
+        ]
+      },
+      {
+        "number": 23,
+        "group": "عندي طلب تنفيذ أو إجراء تنفيذ",
+        "result_id": "R-EXEC-AD-INVOICE-CURRENT",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 3,
+            "label": "عندي طلب تنفيذ أو إجراء تنفيذ",
+            "next_id": "Q040"
+          },
+          {
+            "question_id": "Q040",
+            "option_index": 0,
+            "label": "عندي طلب تنفيذ قائم",
+            "next_id": "Q041"
+          },
+          {
+            "question_id": "Q041",
+            "option_index": 8,
+            "label": "تعذر تبليغ قرار 34 وأبي فاتورة إعلان",
+            "next_id": "R-EXEC-AD-INVOICE-CURRENT"
+          }
+        ]
+      },
+      {
+        "number": 24,
+        "group": "عندي مشكلة في إجراءات الدعوى أو الاختصاص أو الاعتراض",
+        "result_id": "R-PROC-APPEAL",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 12,
+            "label": "عندي مشكلة في إجراءات الدعوى أو الاختصاص أو الاعتراض",
+            "next_id": "Q601"
+          },
+          {
+            "question_id": "Q601",
+            "option_index": 4,
+            "label": "أبي أعترض على حكم أول درجة",
+            "next_id": "R-PROC-APPEAL"
+          }
+        ]
+      },
+      {
+        "number": 25,
+        "group": "عندي مشكلة في الإثبات أو الأدلة",
+        "result_id": "R-EVID-BURDEN",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 11,
+            "label": "عندي مشكلة في الإثبات أو الأدلة",
+            "next_id": "Q600"
+          },
+          {
+            "question_id": "Q600",
+            "option_index": 0,
+            "label": "مين عليه إثبات الحق؟",
+            "next_id": "R-EVID-BURDEN"
+          }
+        ]
+      },
+      {
+        "number": 26,
+        "group": "لي مبلغ أو حق مالي عند شخص أو جهة",
+        "result_id": "R-CIVIL-SPECIFIC-PERFORMANCE",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 0,
+            "label": "لي مبلغ أو حق مالي عند شخص أو جهة",
+            "next_id": "Q010"
+          },
+          {
+            "question_id": "Q010",
+            "option_index": 7,
+            "label": "تعويض أو إخلال بعقد أو استرداد مبلغ غير مستحق",
+            "next_id": "Q500"
+          },
+          {
+            "question_id": "Q500",
+            "option_index": 0,
+            "label": "الطرف الآخر ما نفذ العقد وأبي التنفيذ نفسه",
+            "next_id": "R-CIVIL-SPECIFIC-PERFORMANCE"
+          }
+        ]
+      },
+      {
+        "number": 27,
+        "group": "مشكلة عمل أو راتب أو فصل",
+        "result_id": "R-DOMESTIC-DOC",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 4,
+            "label": "مشكلة عمل أو راتب أو فصل",
+            "next_id": "Q050"
+          },
+          {
+            "question_id": "Q050",
+            "option_index": 1,
+            "label": "عند أسرة كعامل/عاملة منزلية أو سائق ونحو ذلك",
+            "next_id": "Q067"
+          },
+          {
+            "question_id": "Q067",
+            "option_index": 4,
+            "label": "توثيق بيانات / عقد عامل منزلي موجود عندي",
+            "next_id": "R-DOMESTIC-DOC"
+          }
+        ]
+      },
+      {
+        "number": 28,
+        "group": "وصلني شيء في ناجز",
+        "result_id": "R-CASE-HEARING",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 1,
+            "label": "وصلني شيء في ناجز",
+            "next_id": "Q020"
+          },
+          {
+            "question_id": "Q020",
+            "option_index": 2,
+            "label": "وصلني موعد جلسة",
+            "next_id": "Q024"
+          },
+          {
+            "question_id": "Q024",
+            "option_index": 0,
+            "label": "عندي موعد جلسة فقط",
+            "next_id": "R-CASE-HEARING"
+          }
+        ]
+      },
+      {
+        "number": 29,
+        "group": "أبي أرفع قضية جديدة أو أعرف المحكمة المناسبة",
+        "result_id": "R-ADMIN-COMPENSATION",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 13,
+            "label": "أبي أرفع قضية جديدة أو أعرف المحكمة المناسبة",
+            "next_id": "Q610"
+          },
+          {
+            "question_id": "Q610",
+            "option_index": 4,
+            "label": "قرار أو عقد أو حق ضد جهة حكومية",
+            "next_id": "Q608"
+          },
+          {
+            "question_id": "Q608",
+            "option_index": 2,
+            "label": "تعويض عن قرار أو عمل جهة إدارية",
+            "next_id": "R-ADMIN-COMPENSATION"
+          }
+        ]
+      },
+      {
+        "number": 30,
+        "group": "أحتاج توثيق أو خدمة بدون نزاع",
+        "result_id": "R-DOC-DEBT-WAIVER",
+        "path": [
+          {
+            "question_id": "Q001",
+            "option_index": 9,
+            "label": "أحتاج توثيق أو خدمة بدون نزاع",
+            "next_id": "Q100"
+          },
+          {
+            "question_id": "Q100",
+            "option_index": 1,
+            "label": "إقرار مالي",
+            "next_id": "Q153"
+          },
+          {
+            "question_id": "Q153",
+            "option_index": 3,
+            "label": "إقرار بالتنازل عن دين",
+            "next_id": "R-DOC-DEBT-WAIVER"
+          }
+        ]
+      }
+    ]
+  },
+  "search": {
+    "status": "PASS",
+    "total_ms": 349.42,
+    "long_query_ms": 10.97,
+    "failures": [],
+    "cases": [
+      {
+        "term": "فصلوني من العمل",
+        "expected": "Q050",
+        "actual": "Q050",
+        "pass": true
+      },
+      {
+        "term": "راتبي متاخر",
+        "expected": "Q050",
+        "actual": "Q050",
+        "pass": true
+      },
+      {
+        "term": "زوجي مايصرف",
+        "expected": "Q402",
+        "actual": "Q402",
+        "pass": true
+      },
+      {
+        "term": "ابي نفقه",
+        "expected": "Q402",
+        "actual": "Q402",
+        "pass": true
+      },
+      {
+        "term": "عندي حكم نفقة وما يدفع",
+        "expected": "Q402",
+        "actual": "Q402",
+        "pass": true
+      },
+      {
+        "term": "حسابي محجوز",
+        "expected": "Q040",
+        "actual": "Q040",
+        "pass": true
+      },
+      {
+        "term": "صدر علي 46",
+        "expected": "Q040",
+        "actual": "Q040",
+        "pass": true
+      },
+      {
+        "term": "فاتتني مدة الاعتراض",
+        "expected": "Q030",
+        "actual": "Q030",
+        "pass": true
+      },
+      {
+        "term": "الحكم غلط",
+        "expected": "Q030",
+        "actual": "Q030",
+        "pass": true
+      },
+      {
+        "term": "المستاجر ما سدد",
+        "expected": "Q070",
+        "actual": "Q070",
+        "pass": true
+      },
+      {
+        "term": "المؤجر طردني",
+        "expected": "Q070",
+        "actual": "Q070",
+        "pass": true
+      },
+      {
+        "term": "شركة نصبت علي",
+        "expected": "Q080",
+        "actual": "Q080",
+        "pass": true
+      },
+      {
+        "term": "شريكي سرقني",
+        "expected": "Q080",
+        "actual": "Q080",
+        "pass": true
+      },
+      {
+        "term": "البنك خصم مبلغ",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "التامين رفض التعويض",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "رحلتي انلغت",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "شنطتي ضاعت",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "المويه مقطوعه",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "فاتوره الكهرب غلط",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "صار تسريب لبياناتي",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "ابي اوكل شخص",
+        "expected": "Q100",
+        "actual": "Q100",
+        "pass": true
+      },
+      {
+        "term": "تصديق وكاله",
+        "expected": "Q100",
+        "actual": "Q100",
+        "pass": true
+      },
+      {
+        "term": "هويتي ضاعت",
+        "expected": "Q294",
+        "actual": "Q294",
+        "pass": true
+      },
+      {
+        "term": "تجديد الاقامه",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "تجديد الجواز",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "مخالفة ساهر غلط",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "نفاذ ما يفتح",
+        "expected": "Q300",
+        "actual": "Q300",
+        "pass": true
+      },
+      {
+        "term": "توكلنا ما يشتغل",
+        "expected": "Q300",
+        "actual": "Q300",
+        "pass": true
+      },
+      {
+        "term": "رخصه بلدي",
+        "expected": "Q308",
+        "actual": "Q308",
+        "pass": true
+      },
+      {
+        "term": "توثيق متجر الكتروني",
+        "expected": "Q309",
+        "actual": "Q309",
+        "pass": true
+      },
+      {
+        "term": "اخوي مايقسم الورث",
+        "expected": "Q409",
+        "actual": "Q409",
+        "pass": true
+      },
+      {
+        "term": "ابي حضانه",
+        "expected": "Q403",
+        "actual": "Q403",
+        "pass": true
+      },
+      {
+        "term": "ابي زيارة عيالي",
+        "expected": "Q408",
+        "actual": "Q408",
+        "pass": true
+      },
+      {
+        "term": "طلقني وما وثق",
+        "expected": "Q406",
+        "actual": "Q406",
+        "pass": true
+      },
+      {
+        "term": "ابي اخلع زوجي",
+        "expected": "Q407",
+        "actual": "Q407",
+        "pass": true
+      },
+      {
+        "term": "الولي رافض يزوجني",
+        "expected": "Q417",
+        "actual": "Q417",
+        "pass": true
+      },
+      {
+        "term": "شكوى على مستشفى",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "شركة الشحن ضيعت طلبي",
+        "expected": "Q110",
+        "actual": "Q110",
+        "pass": true
+      },
+      {
+        "term": "   فصلوني   من   العمل   ",
+        "expected": "Q050",
+        "actual": "Q050",
+        "pass": true
+      }
+    ]
+  },
+  "security": {
+    "external_scripts": [],
+    "external_assets": [],
+    "unsafe_blank_links": 0,
+    "non_https_sources": [],
+    "secrets": [],
+    "inner_html_assignments": 5
+  },
+  "privacy": {
+    "cookies": false,
+    "analytics": false,
+    "forms": 0,
+    "local_storage_keys": [
+      "wb_current",
+      "wb_history"
+    ],
+    "server_submission": false,
+    "external_navigation_only_on_user_click": true
+  },
+  "cache": {
+    "registered": false,
+    "stale_service_worker_risk": false,
+    "offline_supported": false,
+    "github_pages_html_cache_seconds": 600
+  },
+  "performance": {
+    "index_bytes": 5396977,
+    "inline_script_bytes": 5374473,
+    "css_bytes": 20938,
+    "architecture": "single-file",
+    "largest_cost": "embedded 646-result dataset"
+  },
+  "orphan_sources": {
+    "count": 317,
+    "classification": "UNUSED / RESERVED",
+    "ids": [
+      "SRC-ABSHER-CIVIL-SERVICES",
+      "SRC-ABSHER-NATIONAL-ID",
+      "SRC-BOE-ARBITRATION",
+      "SRC-BOE-BANKRUPTCY",
+      "SRC-BOE-CIVIL-PROCEDURE",
+      "SRC-BOE-COMMERCIAL-COURTS",
+      "SRC-BOE-COMMERCIAL-PAPERS",
+      "SRC-BOE-CRIM-PROC",
+      "SRC-BOE-CRIM-REG",
+      "SRC-BOE-ENFORCEMENT-LAW",
+      "SRC-BOE-EVIDENCE",
+      "SRC-BOE-JUDICIAL-COSTS",
+      "SRC-BOE-JUDICIARY",
+      "SRC-BOE-LABOR-LAW",
+      "SRC-BOE-PLEADINGS",
+      "SRC-BOE-REAL-ESTATE-BROKERAGE",
+      "SRC-BOE-SHARIA-PLEADINGS",
+      "SRC-BOG-APPEAL-CURRENT",
+      "SRC-BOG-JUDICIAL-REQUESTS",
+      "SRC-BOG-PLATFORMS",
+      "SRC-BOG-SUPREME-OBJECTION",
+      "SRC-BULK-BOE_CPL",
+      "SRC-CIV-CLAIM",
+      "SRC-CIV-TRIP",
+      "SRC-EJAR-FAQ",
+      "SRC-EJAR-FAQ-CURRENT",
+      "SRC-FAM-PSL-OFFICIAL",
+      "SRC-HRSD-ABSENCE-PRIVATE",
+      "SRC-HRSD-DOMESTIC-SETTLEMENT-2026",
+      "SRC-HRSD-DOMESTIC-WAGE-PROTECTION-2026",
+      "SRC-HRSD-EXECUTIVE-LABOR-CONTRACT",
+      "SRC-HRSD-LABOR-SETTLE-2026",
+      "SRC-MC-FRANCHISE",
+      "SRC-MOJ-ACK-SERVICES",
+      "SRC-MOJ-BREASTFEEDING-DOC",
+      "SRC-MOJ-CASE-FILING",
+      "SRC-MOJ-CASSATION",
+      "SRC-MOJ-COMM-COURTS",
+      "SRC-MOJ-CRIM-COURTS",
+      "SRC-MOJ-CUSTODY-DOC",
+      "SRC-MOJ-CUSTODY-EXEC",
+      "SRC-MOJ-DEBT-ACK",
+      "SRC-MOJ-DEBT-PAYMENT-ACK",
+      "SRC-MOJ-DEPOSIT-MEMO",
+      "SRC-MOJ-DIVORCE-DOC",
+      "SRC-MOJ-E-LITIGATION",
+      "SRC-MOJ-ESTATE-AGREED",
+      "SRC-MOJ-ESTATE-DIVISION",
+      "SRC-MOJ-ESTATE-INVENTORY",
+      "SRC-MOJ-ESTATE-PLATFORM",
+      "SRC-MOJ-EXEC-34-GUIDE",
+      "SRC-MOJ-EXEC-46-GUIDE",
+      "SRC-MOJ-EXEC-AD-INVOICE",
+      "SRC-MOJ-EXEC-AD-INVOICE-CURRENT",
+      "SRC-MOJ-EXEC-ADD-HEIR",
+      "SRC-MOJ-EXEC-AMEND-AMOUNT",
+      "SRC-MOJ-EXEC-AMOUNT-CURRENT",
+      "SRC-MOJ-EXEC-APPLY",
+      "SRC-MOJ-EXEC-APPLY-CURRENT",
+      "SRC-MOJ-EXEC-CUSTODY-LETTER",
+      "SRC-MOJ-EXEC-END",
+      "SRC-MOJ-EXEC-FAMILY-DECISIONS",
+      "SRC-MOJ-EXEC-FIN-REPORT",
+      "SRC-MOJ-EXEC-GRACE",
+      "SRC-MOJ-EXEC-LAW",
+      "SRC-MOJ-EXEC-LEGAL-REP",
+      "SRC-MOJ-EXEC-LIFT46-GUIDE",
+      "SRC-MOJ-EXEC-NOTIFY-DECISION",
+      "SRC-MOJ-EXEC-PAYMENT",
+      "SRC-MOJ-EXEC-PROOF-PAYMENT",
+      "SRC-MOJ-EXEC-QUERY",
+      "SRC-MOJ-EXEC-REACTIVATE",
+      "SRC-MOJ-EXEC-REACTIVATE-CURRENT",
+      "SRC-MOJ-EXEC-SADAD-INVOICE",
+      "SRC-MOJ-EXEC-SLA",
+      "SRC-MOJ-EXEC-TRANSFER",
+      "SRC-MOJ-EXEC-TRANSFER-SEIZED-CURRENT",
+      "SRC-MOJ-EXEC-VISIT-LETTER",
+      "SRC-MOJ-EXPERT",
+      "SRC-MOJ-FAMILY-DISPUTE-ENTRY",
+      "SRC-MOJ-FAMILY-SHAML",
+      "SRC-MOJ-FINANCIAL-ACK-WAIVERS",
+      "SRC-MOJ-FIRST-COURTS-REAL",
+      "SRC-MOJ-FIRST-DEFENSE",
+      "SRC-MOJ-HEARING-CALENDAR",
+      "SRC-MOJ-HEIRS",
+      "SRC-MOJ-HEIRS-DIGITIZE",
+      "SRC-MOJ-INHAAT",
+      "SRC-MOJ-INHERITANCE-CALC",
+      "SRC-MOJ-INHERITANCE-PLATFORM",
+      "SRC-MOJ-INHERITANCE-RENUNCIATION",
+      "SRC-MOJ-INTERVENTION",
+      "SRC-MOJ-JOIN",
+      "SRC-MOJ-JUDGMENT-CORRECT-INTERPRET",
+      "SRC-MOJ-JUDICIAL-COSTS",
+      "SRC-MOJ-JUDICIAL-REQUESTS-SLA",
+      "SRC-MOJ-KHULA-DOC",
+      "SRC-MOJ-MAINT-DEDUCT",
+      "SRC-MOJ-MARRIAGE-NEW",
+      "SRC-MOJ-MARRIAGE-NONSAUDI",
+      "SRC-MOJ-MARRIAGE-PAPER-ATTEST",
+      "SRC-MOJ-MARRIAGE-PREVIOUS",
+      "SRC-MOJ-MARRIAGE-VERIFY",
+      "SRC-MOJ-MONEY-RECEIPT-ACK",
+      "SRC-MOJ-MORTGAGE-RELEASE",
+      "SRC-MOJ-MOVABLE-ACKS",
+      "SRC-MOJ-POA-ISSUE",
+      "SRC-MOJ-POA-REGISTER",
+      "SRC-MOJ-POA-REVOKE",
+      "SRC-MOJ-POA-VERIFY",
+      "SRC-MOJ-RESUME",
+      "SRC-MOJ-RETURN-DOC",
+      "SRC-MOJ-SLA-CURRENT",
+      "SRC-MOJ-STATEMENT-OF-CLAIM",
+      "SRC-MOJ-STAY",
+      "SRC-MOJ-STRUCK",
+      "SRC-MOJ-URGENT-CLAIMS",
+      "SRC-MOJ-VISIT-EXEC",
+      "SRC-MOJ-WAQF-DOC",
+      "SRC-MOJ-WILL-DOC",
+      "SRC-MOJ-WITHDRAW",
+      "SRC-MYGOV-CYBER-REPORT",
+      "SRC-NCAR-PERSONAL-STATUS-REG",
+      "SRC-RBR-COSTREG",
+      "SRC-RBR-COSTS-LAW",
+      "SRC-RBR-COSTS-REG",
+      "SRC-RBR-CPL",
+      "SRC-RBR-CUSTODY",
+      "SRC-RBR-CUSTODY-LETTER",
+      "SRC-RBR-CUSTODYDOC65",
+      "SRC-RBR-EXEC",
+      "SRC-RBR-EXEC-VERIFY",
+      "SRC-RBR-MOJ-CASETRIP",
+      "SRC-RBR-MOJ-RECONSIDER",
+      "SRC-RBR-MOJ-SLA",
+      "SRC-RBR-SLA",
+      "SRC-RBR-VERIFY",
+      "SRC-REGA-EJAR-SETTLEMENT",
+      "SRC-REGA-REGISTRY",
+      "SRC-SAIP-COPYRIGHT",
+      "SRC-SAIP-HOME",
+      "SRC-SAIP-PATENT",
+      "SRC-SAIP-TRADEMARKS",
+      "SRC-UQN-RENT-CONTROLS",
+      "SRC100-GUIDE",
+      "SRC100-PROOFPDF",
+      "SRC102-REGA-REG",
+      "SRC103-TRIP",
+      "SRC104-DEDUCT",
+      "SRC104-TRIP",
+      "SRC105-TRIP",
+      "SRC106-CLAIM",
+      "SRC106-EXEC",
+      "SRC107-CLAIM",
+      "SRC110-CLAIM",
+      "SRC110-TRIP",
+      "SRC111-CLAIM",
+      "SRC111-TRIP",
+      "SRC112-CLAIM",
+      "SRC115-CLAIM",
+      "SRC115-TRIP",
+      "SRC116-CLAIM",
+      "SRC116-TRIP",
+      "SRC117-CLAIM",
+      "SRC117-EXEC",
+      "SRC118-CLAIM",
+      "SRC118-TRIP",
+      "SRC119-CLAIM",
+      "SRC119-TRIP",
+      "SRC120-CLAIM",
+      "SRC120-EXEC",
+      "SRC121-CLAIM",
+      "SRC121-EXEC",
+      "SRC121-TRIP",
+      "SRC124-CLAIM",
+      "SRC124-TRIP",
+      "SRC125-CLAIM",
+      "SRC125-TRIP",
+      "SRC127-CLAIM",
+      "SRC127-TRIP",
+      "SRC128-CLAIM",
+      "SRC128-FAM",
+      "SRC128-INHAAT",
+      "SRC129-CLAIM",
+      "SRC129-EVID",
+      "SRC129-TRIP",
+      "SRC130-CLAIM",
+      "SRC130-TRIP",
+      "SRC132-EVID",
+      "SRC132-MOJ",
+      "SRC132-SLA",
+      "SRC133-CLAIM",
+      "SRC133-TRIP",
+      "SRC134-CLAIM",
+      "SRC134-TRIP",
+      "SRC136-CLAIM",
+      "SRC136-INHAAT",
+      "SRC137-CLAIM",
+      "SRC137-FAM",
+      "SRC137-TRIP",
+      "SRC138-CLAIM",
+      "SRC138-TRIP",
+      "SRC139-MOJ",
+      "SRC139-TRIP",
+      "SRC140-MOJ",
+      "SRC140-TRIP",
+      "SRC141-CALC",
+      "SRC141-ESTATE",
+      "SRC142-CLAIM",
+      "SRC142-COURTS",
+      "SRC142-PLEAD",
+      "SRC143-CALC",
+      "SRC143-COURTS",
+      "SRC143-ESTATE",
+      "SRC144-COURTS",
+      "SRC144-EXEC",
+      "SRC144-MOJ",
+      "SRC144-TRIP",
+      "SRC145-ADHL",
+      "SRC145-MOJ",
+      "SRC145-TRIP",
+      "SRC146-DIVIDE",
+      "SRC146-ESTATE",
+      "SRC146-MOJ",
+      "SRC147-COST",
+      "SRC148-APPEAL",
+      "SRC148-CASS",
+      "SRC148-COST",
+      "SRC148-HIGH",
+      "SRC149-RIGHTS",
+      "SRC150-LAW",
+      "SRC150-NAJIZ",
+      "SRC151-OT",
+      "SRC151-SAFETY",
+      "SRC151-SETTLE",
+      "SRC152-AMEND",
+      "SRC152-SETTLE",
+      "SRC153-COPYEX",
+      "SRC153-FRLAW",
+      "SRC153-PATEX",
+      "SRC154-SAIP-EXEC",
+      "SRC154-SAIP-RES",
+      "SRC155-COMMINFO",
+      "SRC155-DEF",
+      "SRC156-COURT",
+      "SRC156-EXEC",
+      "SRC66-EXEC-QUERY",
+      "SRC66-PAY",
+      "SRC66-REACT",
+      "SRC67-SLA",
+      "SRC68-CLAIM",
+      "SRC68-SLA",
+      "SRC69-CASETRIP",
+      "SRC69-CLAIM",
+      "SRC69-MOJ-HOME",
+      "SRC70-HEIRS",
+      "SRC70-SLA",
+      "SRC71-DIVEXEC",
+      "SRC71-DIVIDE",
+      "SRC71-MERATH",
+      "SRC71-MOJ",
+      "SRC71-SLA",
+      "SRC71-SOCIAL",
+      "SRC72-CPL",
+      "SRC74-COST",
+      "SRC74-SLA",
+      "SRC75-MOJ",
+      "SRC76-ESTATE",
+      "SRC76-MOJ",
+      "SRC77-EJAR-RES",
+      "SRC77-EXEC",
+      "SRC77-EXEC-GUIDE",
+      "SRC78-EXEC",
+      "SRC78-MOJCASE",
+      "SRC79-MEMO",
+      "SRC79-SLA",
+      "SRC79-STRUCK",
+      "SRC80-EXECREQ",
+      "SRC80-LIFT46",
+      "SRC80-TRANSFER",
+      "SRC81-QUERY",
+      "SRC82-CUSTDOC",
+      "SRC82-PSL",
+      "SRC83-DOMPDF",
+      "SRC84-EXEC",
+      "SRC84-EXECREQ",
+      "SRC85-BDOC",
+      "SRC85-BGUIDE",
+      "SRC88-DEBTW",
+      "SRC89-PAY",
+      "SRC89-REC",
+      "SRC89-WM",
+      "SRC90-REALREG",
+      "SRC91-DATA",
+      "SRC91-OPS",
+      "SRC91-RELEASE",
+      "SRC91-SLA",
+      "SRC91-STOP",
+      "SRC92-CUSTODYLETTER",
+      "SRC93-SLA",
+      "SRC94-CUST",
+      "SRC94-ESTATE",
+      "SRC94-HEIR",
+      "SRC94-HEIR-DIG",
+      "SRC94-MARR-NONSA",
+      "SRC94-MARR-PAPER",
+      "SRC95-CPL",
+      "SRC95-MOJ",
+      "SRC96-VERIFY",
+      "SRC97-CLAIM",
+      "SRC97-COSTREG",
+      "SRC97-COSTSYS",
+      "SRC97-TRIP",
+      "SRC99-CLAIM",
+      "SRC99-FIRST",
+      "SRCNEXT-CIV",
+      "SRCNEXT-TRIP"
+    ]
+  },
+  "checks": {
+    "counts_unchanged": true,
+    "candidate_matches_index": true,
+    "exactly_one_popstate_listener": true,
+    "storage_access_guarded": true,
+    "no_source_authority_fallback": true,
+    "empty_result_fields_filtered": true,
+    "safe_official_urls": true,
+    "no_external_scripts": true,
+    "no_external_assets": true,
+    "safe_blank_links": true,
+    "no_secrets": true,
+    "no_cookies": true,
+    "no_analytics": true,
+    "no_forms": true,
+    "csp_present": true,
+    "referrer_policy_present": true,
+    "skip_link": true,
+    "semantic_main": true,
+    "semantic_header": true,
+    "progress_accessible": true,
+    "visible_focus": true,
+    "touch_targets": true,
+    "safe_area": true,
+    "responsive_breakpoints": true,
+    "desktop_width": true,
+    "overflow_protection": true,
+    "manifest_relative": true,
+    "service_worker_not_registered": true,
+    "service_worker_navigation_network_fresh": true,
+    "service_worker_cache_cleanup": true,
+    "journeys_30_pass": true,
+    "search_cases_pass": true,
+    "orphan_count_expected": true
+  },
+  "failures": [],
+  "status": "PASS"
+}
