@@ -1,0 +1,35 @@
+name: Pre-legal approval audit
+on:
+  push:
+    branches: [interactive-preview]
+    paths:
+      - scripts/legal_approval_master.js
+      - scripts/legal_approval_qa.js
+      - .github/workflows/legal-approval-audit.yml
+permissions:
+  contents: write
+jobs:
+  legal-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: interactive-preview
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build legal approval master
+        run: node scripts/legal_approval_master.js
+      - name: Validate all 646 audit records
+        run: node scripts/legal_approval_qa.js
+      - name: Verify decision-tree invariants
+        run: |
+          node scripts/result_audit.js index.html > /tmp/result-audit.json
+          node -e "const r=require('/tmp/result-audit.json'),q=r.qa;for(const k of ['broken_next_id','unreachable_questions','unreachable_results','dead_ends','missing_source_id','immediate_two_node_loops'])if(q[k]!==0)throw Error(k+'='+q[k])"
+      - name: Commit legal approval package
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/LEGAL_APPROVAL_MASTER.csv docs/LEGAL_APPROVAL_EXECUTIVE_SUMMARY.md docs/legal-approval
+          git diff --cached --quiet || git commit -m "Generate pre-legal approval master for 646 results"
+          git push origin HEAD:interactive-preview
