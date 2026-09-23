@@ -46,7 +46,7 @@ const sourceAuditFile=path.join(packet,'06_SOURCE_LINK_AUDIT.csv');
 let sourcesTested=0;
 if(fs.existsSync(sourceAuditFile)){
   const sourceAudit=objects(sourceAuditFile);sourcesTested=sourceAudit.length;
-  const allowed=new Set(['ACTIVE','REDIRECTED','SUPERSEDED','STALE','BROKEN','REQUIRES HUMAN CHECK']);
+  const allowed=new Set(['ACTIVE','REDIRECTED','SUPERSEDED','STALE','BROKEN','BLOCKED_FROM_AUTOMATED_CHECK','REQUIRES_LEGAL_REVIEW']);
   check(sourceAudit.length===621,`Source link audit expected 621, found ${sourceAudit.length}`);
   check(new Set(sourceAudit.map(r=>r.source_id)).size===621,'Source link audit contains duplicate source IDs');
   check(sourceAudit.every(r=>allowed.has(r.classification)), 'Source link audit contains an invalid classification');

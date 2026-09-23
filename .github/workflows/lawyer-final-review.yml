@@ -8,6 +8,12 @@ on:
       - scripts/source_link_audit.js
       - scripts/lawyer_handoff_packet.js
       - scripts/lawyer_handoff_qa.js
+      - scripts/non_legal_qa.js
+      - scripts/non_legal_report.js
+      - scripts/non_legal_hardening.js
+      - scripts/ui_hardening.js
+      - scripts/search_hardening.js
+      - scripts/security_hardening.js
       - .github/workflows/lawyer-final-review.yml
 
 permissions:
@@ -29,19 +35,29 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Apply non-legal hardening
+        run: |
+          node scripts/non_legal_hardening.js
+          node scripts/ui_hardening.js
+          node scripts/search_hardening.js
+          node scripts/security_hardening.js
       - name: Audit all official source links
         run: node scripts/source_link_audit.js
       - name: Generate lawyer packet
         run: node scripts/lawyer_handoff_packet.js
       - name: Validate packet coverage
         run: node scripts/lawyer_handoff_qa.js
+      - name: Validate non-legal hardening
+        run: node scripts/non_legal_qa.js
+      - name: Generate non-legal report
+        run: node scripts/non_legal_report.js
       - name: Validate legal master integrity
         run: node scripts/legal_approval_qa.js
       - name: Commit generated packet
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/LAWYER_FINAL_REVIEW_PACKET
+          git add index.html wesh_baed_sale_final_candidate.html docs/LAWYER_FINAL_REVIEW_PACKET docs/non-legal-hardening
           if git diff --cached --quiet; then
             echo "Packet already current"
           else

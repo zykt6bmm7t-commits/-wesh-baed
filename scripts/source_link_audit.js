@@ -8,7 +8,7 @@ const db=JSON.parse(html.slice(a,b));
 const sources=Object.values(db.sources);
 const resultsBySource=Object.groupBy(Object.values(db.results),r=>r.source_id);
 const checkedAt=new Date().toISOString();
-const officialHosts=['gov.sa','boe.gov.sa','uqn.gov.sa','saip.gov.sa','sama.gov.sa','bfc.gov.sa','ejar.sa','sakani.sa','najiz.sa','absher.sa','iam.gov.sa','gosi.gov.sa','my.gov.sa','mc.gov.sa','cst.gov.sa','rega.gov.sa','zatca.gov.sa','bog.gov.sa'];
+const officialHosts=['gov.sa','boe.gov.sa','uqn.gov.sa','saip.gov.sa','sama.gov.sa','bfc.gov.sa','ejar.sa','sakani.sa','najiz.sa','absher.sa','iam.gov.sa','gosi.gov.sa','my.gov.sa','mc.gov.sa','cst.gov.sa','rega.gov.sa','zatca.gov.sa','bog.gov.sa','rer.sa','scfhs.org.sa','crsd.org.sa','saudieng.sa','business.sa','freelance.sa','bankruptcy.gov.sa'];
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const isOfficial=u=>{try{const h=new URL(u).hostname.toLowerCase();return officialHosts.some(x=>h===x||h.endsWith('.'+x))}catch{return false}};
 const significant=s=>String(s||'').replace(/[—–-]/g,' ').split(/\s+/).filter(x=>x.length>=4&&!/^(وزارة|هيئة|خدمة|منصة|نظام|اللائحة|المملكة|العربية|السعودية)$/.test(x)).slice(0,8);
@@ -25,17 +25,17 @@ async function request(url,method){
 async function check(s){
   const url=s.url||'';let result={ok:false,status:0,final_url:url,error:'NO_URL',content_type:'',body:''};
   if(url){result=await request(url,'HEAD');if(!result.ok||[400,401,403,405,406,429,500,501,502,503,504].includes(result.status))result=await request(url,'GET')}
-  let classification='REQUIRES HUMAN CHECK',reason='تعذر التحقق الآلي.';
+  let classification='BLOCKED_FROM_AUTOMATED_CHECK',reason='تعذر التحقق الآلي من نطاق رسمي؛ يلزم فتحه يدويًا، ولا يعد رابطًا مكسورًا.';
   let redirected=false,https=false,finalOfficial=false,relevance='REQUIRES HUMAN CHECK';
   try{https=new URL(url).protocol==='https:';redirected=Boolean(result.final_url&&result.final_url!==url);finalOfficial=isOfficial(result.final_url||url)}catch{}
   if(s.status==='superseded'||s.status==='repealed'){classification='SUPERSEDED';reason='بيانات المصدر داخل المشروع تصفه بأنه مستبدل/ملغى.'}
   else if(s.status==='stale'||s.status==='obsolete'){classification='STALE';reason='بيانات المصدر داخل المشروع تصفه بأنه قديم.'}
   else if([404,410].includes(result.status)){classification='BROKEN';reason=`الرابط أعاد HTTP ${result.status}.`}
   else if(result.ok&&result.status>=200&&result.status<400&&https&&finalOfficial){classification=redirected?'REDIRECTED':'ACTIVE';reason=redirected?'الرابط يعمل لكنه انتقل إلى عنوان رسمي آخر.':'الرابط يعمل على HTTPS ونطاق رسمي.'}
-  else if(result.ok&&result.status>=200&&result.status<400&&!finalOfficial){classification='REQUIRES HUMAN CHECK';reason='الرابط استجاب لكن العنوان النهائي ليس ضمن قائمة النطاقات الرسمية المعتمدة آليًا.'}
-  else if(result.status===401||result.status===403||result.status===429){classification='REQUIRES HUMAN CHECK';reason=`المصدر الرسمي منع الفحص الآلي أو قيّده (HTTP ${result.status})؛ لا يعد رابطًا مكسورًا.`}
-  else if(result.status>=500){classification='REQUIRES HUMAN CHECK';reason=`عطل مؤقت أو استجابة خادم HTTP ${result.status}.`}
-  else if(!https){classification='REQUIRES HUMAN CHECK';reason='الرابط ليس HTTPS أو تعذر تحليله.'}
+  else if(result.ok&&result.status>=200&&result.status<400&&!finalOfficial){classification='REQUIRES_LEGAL_REVIEW';reason='الرابط استجاب لكن ملكية/صفة النطاق لا يمكن إثباتها آليًا؛ يلزم اعتماد المصدر قبل الاستعمال.'}
+  else if(result.status===401||result.status===403||result.status===429){classification='BLOCKED_FROM_AUTOMATED_CHECK';reason=`المصدر الرسمي منع الفحص الآلي أو قيّده (HTTP ${result.status})؛ لا يعد رابطًا مكسورًا.`}
+  else if(result.status>=500){classification='BLOCKED_FROM_AUTOMATED_CHECK';reason=`عطل مؤقت أو استجابة خادم HTTP ${result.status}؛ يعاد الفحص لاحقًا.`}
+  else if(!https){classification='REQUIRES_LEGAL_REVIEW';reason='الرابط ليس HTTPS أو تعذر إثبات سلامة عنوانه.'}
   if(result.body){const plain=result.body.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');const keys=significant(s.title);const hits=keys.filter(k=>plain.includes(k)).length;relevance=keys.length===0?'REQUIRES HUMAN CHECK':hits>=Math.min(2,keys.length)?'LIKELY_RELEVANT':'REQUIRES HUMAN CHECK'}
   else if(/pdf/i.test(result.content_type))relevance='PDF_LINK_ONLY';
   return {
@@ -52,7 +52,7 @@ async function main(){
   fs.mkdirSync('docs/LAWYER_FINAL_REVIEW_PACKET',{recursive:true});
   fs.writeFileSync('docs/LAWYER_FINAL_REVIEW_PACKET/06_SOURCE_LINK_AUDIT.csv',[headers,...out.map(x=>headers.map(h=>x[h]))].map(r=>r.map(esc).join(',')).join('\n'));
   const counts=Object.fromEntries(Object.entries(Object.groupBy(out,x=>x.classification)).map(([k,v])=>[k,v.length]));
-  const meta={checked_at:checkedAt,total:out.length,counts,broken:out.filter(x=>x.classification==='BROKEN').map(x=>x.source_id),superseded:out.filter(x=>x.classification==='SUPERSEDED').map(x=>x.source_id),requires_human_check:out.filter(x=>x.classification==='REQUIRES HUMAN CHECK').length};
+  const meta={checked_at:checkedAt,total:out.length,counts,broken:out.filter(x=>x.classification==='BROKEN').map(x=>x.source_id),superseded:out.filter(x=>x.classification==='SUPERSEDED').map(x=>x.source_id),blocked_from_automated_check:out.filter(x=>x.classification==='BLOCKED_FROM_AUTOMATED_CHECK').length,requires_legal_review:out.filter(x=>x.classification==='REQUIRES_LEGAL_REVIEW').length};
   fs.writeFileSync('docs/LAWYER_FINAL_REVIEW_PACKET/source-link-audit-summary.json',JSON.stringify(meta,null,2));
   console.log(JSON.stringify(meta,null,2));
 }
