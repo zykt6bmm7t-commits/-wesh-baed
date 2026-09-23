@@ -33,6 +33,9 @@ const report=`# NON-LEGAL PRE-LAUNCH HARDENING
 - BROKEN: ${c.BROKEN||0}
 - SUPERSEDED: ${c.SUPERSEDED||0}
 - BLOCKED_FROM_AUTOMATED_CHECK: ${c.BLOCKED_FROM_AUTOMATED_CHECK||0}
+- JAVASCRIPT_REQUIRED: ${c.JAVASCRIPT_REQUIRED||0}
+- LOGIN_REQUIRED: ${c.LOGIN_REQUIRED||0}
+- PDF_OR_DOCUMENT: ${c.PDF_OR_DOCUMENT||0}
 - REQUIRES_LEGAL_REVIEW: ${c.REQUIRES_LEGAL_REVIEW||0}
 
 المشكلة التقنية منفصلة عن المراجعة القانونية: الحظر أو انتهاء المهلة لا يعني أن الرابط مكسور، وصلته القانونية بالادعاء لا تعتمد آليًا عند غياب دليل قطعي.
