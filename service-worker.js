@@ -1,4 +1,4 @@
-const CACHE_NAME='wesh-baed-v191-result-clarity-1';
+const CACHE_NAME='wesh-baed-v192-result-fields-1';
 const APP_SHELL=['./','./index.html','./manifest.webmanifest','./icon.svg'];
 
 self.addEventListener('install',event=>{
@@ -15,13 +15,18 @@ function fixResultUI(html){
   const old="['وين تروح؟',s?(s.authority+(s.title?' — '+s.title:'')):(r.ui_official_source||'')],['وش تحتاج؟',r.ui_requirements||r.requirements],['وش يصير بعد كذا؟',r.ui_what_happens_next||r.what_happens_next],['انتبه',r.ui_caution||r.lawyer_boundary]";
   const neu="['الجهة المختصة',r.authority||''],['الخدمة أو الإجراء',r.service||r.procedure_type||''],['وش تحتاج؟',r.ui_requirements||r.requirements],['المستندات',r.documents||''],['المدة',r.deadline||''],['الرسوم والتكاليف',r.costs||''],['وش يصير بعد كذا؟',r.ui_what_happens_next||r.what_happens_next],['انتبه',r.ui_caution||r.lawyer_boundary]";
   html=html.replace(old,neu);
-  html=html.replace(/PREMIUM · v186/g,'PREMIUM · v191');
+  html=html.replace(/PREMIUM · v186/g,'PREMIUM · v192');
   html=html.replace(/\['وضعك الآن',r\.ui_current_situation\|\|r\.current_situation\]/g,"['وضعك باختصار',r.ui_current_situation||r.current_situation]");
   html=html.replace(/فتح المصدر الرسمي — /g,'المصدر الرسمي — ');
   html=html.replace(/>وين تروح\؟</g,'>الجهة المختصة<');
   html=html.replace(/>وش تحتاج\؟</g,'>المطلوب منك<');
   html=html.replace(/>وش يصير بعد كذا\؟</g,'>وش يصير بعد ذلك؟<');
   html=html.replace(/>انتبه</g,'>تنبيه مهم<');
+  html=html.replace("['الجهة المختصة',r.authority||'']","['الجهة المختصة',r.authority||r.court||r.competent_authority||'']");
+  html=html.replace("['الخدمة أو الإجراء',r.service||r.procedure_type||'']","['الخدمة أو الإجراء',r.service||r.najiz_service||r.procedure_type||'']");
+  html=html.replace("['المستندات',r.documents||'']","['المستندات',r.documents||r.required_documents||'']");
+  html=html.replace("['المدة',r.deadline||'']","['المدة',r.deadline||r.duration||r.time_limit||'']");
+  html=html.replace("['الرسوم والتكاليف',r.costs||'']","['الرسوم والتكاليف',r.costs||r.fees||r.court_costs||'']");
   return html;
 }
 
