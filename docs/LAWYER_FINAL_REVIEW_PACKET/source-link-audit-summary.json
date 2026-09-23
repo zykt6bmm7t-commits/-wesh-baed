@@ -1,20 +1,16 @@
 {
-  "checked_at": "2026-09-23T14:24:44.496Z",
+  "checked_at": "2026-09-23T15:19:33.595Z",
   "total": 621,
   "counts": {
-    "ACTIVE": 408,
-    "BROKEN": 6,
-    "REDIRECTED": 16,
-    "REQUIRES HUMAN CHECK": 191
+    "ACTIVE": 438,
+    "BLOCKED_FROM_AUTOMATED_CHECK": 161,
+    "BROKEN": 1,
+    "REDIRECTED": 21
   },
   "broken": [
-    "SRC-HAJ-COMPLAINT-GUIDE",
-    "SRC-MOH-HEALTH-LICENSE",
-    "SRC-QIWA-CONTRACT",
-    "SRC-QIWA-WORK-PERMIT",
-    "SRC142-FAM",
-    "SRC144-FAM"
+    "SRC-HRSD-DOMESTIC-DOC"
   ],
   "superseded": [],
-  "requires_human_check": 191
+  "blocked_from_automated_check": 161,
+  "requires_legal_review": 0
 }

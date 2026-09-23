@@ -1,0 +1,41 @@
+{
+  "generated_at": "2026-09-23",
+  "counts": {
+    "questions": 305,
+    "options": 1296,
+    "results": 646,
+    "sources": 621
+  },
+  "structural": {
+    "broken_next_id": 0,
+    "unreachable_questions": 0,
+    "unreachable_results": 0,
+    "dead_ends": 0,
+    "missing_source_id": 0,
+    "duplicate_questions": 0,
+    "duplicate_options": 0
+  },
+  "javascript": {
+    "syntax_errors": 0,
+    "details": []
+  },
+  "security": {
+    "external_scripts": [],
+    "third_party_embeds": [],
+    "unsafe_target_blank": 0,
+    "cookies_used": false,
+    "analytics_detected": false,
+    "forms": 0,
+    "secrets_detected": [],
+    "inner_html_assignments": 4,
+    "escaping_function_present": true
+  },
+  "release": {
+    "candidate_matches_index": true,
+    "manifest_link_relative": true,
+    "service_worker_registered": false,
+    "index_bytes": 5395911,
+    "candidate_bytes": 5395911
+  },
+  "pass": true
+}

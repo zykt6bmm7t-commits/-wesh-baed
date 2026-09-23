@@ -7,10 +7,10 @@
   "stale_risk": 130,
   "sources_tested": 621,
   "source_counts": {
-    "ACTIVE": 408,
-    "BROKEN": 6,
-    "REDIRECTED": 16,
-    "REQUIRES HUMAN CHECK": 191
+    "ACTIVE": 438,
+    "BLOCKED_FROM_AUTOMATED_CHECK": 161,
+    "BROKEN": 1,
+    "REDIRECTED": 21
   },
   "specialty_high_counts": {
     "A": 53,

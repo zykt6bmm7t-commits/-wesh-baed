@@ -1,0 +1,17 @@
+{
+  "before": {
+    "questions": 305,
+    "options": 1296,
+    "results": 646,
+    "sources": 621
+  },
+  "after": {
+    "questions": 305,
+    "options": 1296,
+    "results": 646,
+    "sources": 621
+  },
+  "decision_tree_changed": false,
+  "legal_decisions_changed": false,
+  "sources_replaced": 8
+}
