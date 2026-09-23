@@ -13,6 +13,12 @@
 
 لا يجوز وصف المشروع بأنه معتمد قانونيًا قبل إدخال اعتماد المحامي السعودي المرخص في حزمة `docs/LAWYER_FINAL_REVIEW_PACKET`.
 
+## تقارير المراجعة
+
+- [التقرير القانوني الكامل](reports/legal-approval-master/index.html): عارض قابل للبحث والتصفية والطباعة لجميع النتائج الـ646.
+- [الملخص التنفيذي](docs/LEGAL_APPROVAL_EXECUTIVE_SUMMARY.md).
+- [ملف CSV الأصلي](docs/LEGAL_APPROVAL_MASTER.csv).
+
 ## ملفات التشغيل
 
 - `index.html`: نسخة GitHub Pages.
