@@ -1,0 +1,33 @@
+name: Result audit upgrade
+on:
+  push:
+    branches: [interactive-preview]
+    paths:
+      - scripts/upgrade_results.js
+      - scripts/result_audit.js
+      - .github/workflows/result-audit-upgrade.yml
+permissions:
+  contents: write
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: interactive-preview
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Upgrade all results
+        run: node scripts/upgrade_results.js
+      - name: Run structural audit
+        run: node scripts/result_audit.js index.html > result-audit-report.json
+      - name: Validate JavaScript
+        run: node -e "const fs=require('fs'),t=fs.readFileSync('index.html','utf8');for(const m of t.matchAll(/<script>([\\s\\S]*?)<\\/script>/g))new Function(m[1])"
+      - name: Commit generated files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html wesh_baed_sale_final_candidate.html wesh_baed_v186_PREMIUM_UI.html service-worker.js result-audit-report.json
+          git diff --cached --quiet || git commit -m "Apply full result audit upgrade"
+          git push origin HEAD:interactive-preview
