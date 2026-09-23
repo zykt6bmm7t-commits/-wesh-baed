@@ -1,4 +1,4 @@
-const CACHE_NAME='wesh-baed-v1.4-shell-1';
+const CACHE_NAME='wesh-baed-v188-premium-1';
 const APP_SHELL=['/','/index.html','/manifest.webmanifest','/icon.svg'];
 
 self.addEventListener('install',event=>{
@@ -21,7 +21,7 @@ self.addEventListener('fetch',event=>{
 
   if(event.request.mode==='navigate'){
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request,{cache:'no-store'})
         .then(response=>{
           const copy=response.clone();
           caches.open(CACHE_NAME).then(cache=>cache.put('/index.html',copy));
