@@ -1,20 +1,19 @@
 {
-  "checked_at": "2026-09-23T16:42:50.176Z",
+  "checked_at": "2026-09-23T18:00:42.668Z",
   "total": 621,
   "counts": {
-    "ACTIVE": 405,
-    "BLOCKED_FROM_AUTOMATED_CHECK": 141,
-    "LOGIN_REQUIRED": 1,
-    "PDF_OR_DOCUMENT": 64,
-    "REDIRECTED": 9,
+    "ACTIVE": 381,
+    "BLOCKED_FROM_AUTOMATED_CHECK": 167,
+    "PDF_OR_DOCUMENT": 65,
+    "REDIRECTED": 7,
     "REQUIRES_LEGAL_REVIEW": 1
   },
   "broken": [],
   "superseded": [],
-  "blocked_from_automated_check": 141,
+  "blocked_from_automated_check": 167,
   "javascript_required": 0,
-  "login_required": 1,
-  "pdf_or_document": 64,
+  "login_required": 0,
+  "pdf_or_document": 65,
   "requires_legal_review": 1,
-  "manual_check_required": 167
+  "manual_check_required": 189
 }

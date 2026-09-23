@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T17:19:19.833Z",
+  "generated_at": "2026-09-23T18:03:30.125Z",
   "head_before": "06fc97c6682f86e1fb72782fd98ed9b4f5120ce3",
   "counts": {
     "questions": 305,
@@ -760,8 +760,8 @@
   },
   "search": {
     "status": "PASS",
-    "total_ms": 349.42,
-    "long_query_ms": 10.97,
+    "total_ms": 348.72,
+    "long_query_ms": 12.07,
     "failures": [],
     "cases": [
       {
@@ -1026,8 +1026,8 @@
     "github_pages_html_cache_seconds": 600
   },
   "performance": {
-    "index_bytes": 5396977,
-    "inline_script_bytes": 5374473,
+    "index_bytes": 5396979,
+    "inline_script_bytes": 5374475,
     "css_bytes": 20938,
     "architecture": "single-file",
     "largest_cost": "embedded 646-result dataset"

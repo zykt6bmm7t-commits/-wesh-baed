@@ -1,29 +1,20 @@
 # SOURCE_CLEANUP_REPORT
 
-تاريخ الفحص: 2026-09-23T16:42:50.176Z
+تاريخ الفحص: 2026-09-23T18:00:42.668Z
 
 الحالة القانونية: **PRE-LEGAL REVIEW COMPLETE — AWAITING LICENSED SAUDI LAWYER APPROVAL**
 
 هذا فحص تقني للمصدر والرابط والنطاق. لا يعتمد السريان أو التفسير القانوني ولا يغيّر أيًا من القرارات القانونية الـ59.
 
-## Orphan Sources / مصادر غير مستخدمة حاليًا
-
-- يوجد **317** مصدرًا لا يشير إليه أي Result حالي.
-- تصنيفها التشغيلي: **UNUSED / RESERVED**.
-- لم تُحذف ولم تُغيّر لأنها قد تكون محفوظة للتدقيق أو التوسع اللاحق.
-- لا ينبغي اعتبارها ضمن المصادر المستخدمة فعليًا في الـ646 Result.
-- القائمة المنفصلة: `docs/ORPHAN_SOURCES.csv`.
-
 ## الملخص
 
 - Total Sources: 621
-- ACTIVE: 405
-- BLOCKED_FROM_AUTOMATED_CHECK: 141
-- LOGIN_REQUIRED: 1
-- PDF_OR_DOCUMENT: 64
-- REDIRECTED: 9
+- ACTIVE: 381
+- BLOCKED_FROM_AUTOMATED_CHECK: 167
+- PDF_OR_DOCUMENT: 65
+- REDIRECTED: 7
 - REQUIRES_LEGAL_REVIEW: 1
-- Manual check required: 167
+- Manual check required: 189
 - Requires licensed-lawyer review: 1
 
 ## تغييرات الروابط الرسمية الموثقة
@@ -48,8 +39,6 @@
 ## REDIRECTED
 
 - SRC-ABSHER-CIVIL-SERVICES: https://www.absher.sa/ → https://www.absher.sa/portal/landing.html?v=1 — الرابط انتقل إلى عنوان رسمي وما زال مرتبطًا تقنيًا بالمصدر.
-- SRC-ABSHER-MOTOR-SALE: https://www.absher.sa/wps/portal/individuals/static/vot/ → https://www.absher.sa/wps/portal/individuals/static/vot/!ut/p/z1/04_Sj9CPykssy0xPLMnMz0vMAfIjo8ziDQ1dLDyM3A18LAwsnAwCXdzcjZxCjQ0MQs31w8EKTJ0DnD0tfI0N3QNCzQ2M3MxNvJzNvN3DDMz1o4jRb4ADOBoQpx-Pgij8xofrR4GV4PMBITMKckNDIwwyHQF92242/dz/d5/L2dBISEvZ0FBIS9nQSEh/ — الرابط انتقل إلى عنوان رسمي وما زال مرتبطًا تقنيًا بالمصدر.
-- SRC-MEWA-NAAMA: https://www.mewa.gov.sa/ → https://www.mewa.gov.sa/en/ — الرابط انتقل إلى عنوان رسمي وما زال مرتبطًا تقنيًا بالمصدر.
 - SRC-ZATCA-VAT: https://zatca.gov.sa/ar/eServices/Pages/eServices_007.aspx → https://zatca.gov.sa/ar/eServices/Pages/eservices-007.aspx — الرابط انتقل إلى عنوان رسمي وما زال مرتبطًا تقنيًا بالمصدر.
 - SRC128-INHAAT: https://inhaatportal.moj.gov.sa/tabsnew.aspx → https://inhaatportal.moj.gov.sa/HomePage.aspx — الرابط انتقل إلى عنوان رسمي وما زال مرتبطًا تقنيًا بالمصدر.
 - SRC136-INHAAT: https://inhaatportal.moj.gov.sa/tabsnew.aspx → https://inhaatportal.moj.gov.sa/HomePage.aspx — الرابط انتقل إلى عنوان رسمي وما زال مرتبطًا تقنيًا بالمصدر.
@@ -59,9 +48,12 @@
 
 ## BLOCKED_FROM_AUTOMATED_CHECK
 
+- SRC-ABSHER-MOTOR-SALE: https://www.absher.sa/wps/portal/individuals/static/vot/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-ABSHER-TRAFFIC-SERVICES: https://absher.sa/wps/wcm/connect/individuals/contents/individuals%2BAR/eServices%2BUser%2BGuide/eServices/Traffic-Services/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BALADY-BUILDING-INQUIRY: https://balady.gov.sa/ar/services/استعلام-عن-رخصة-بناء — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BALADY-BUILDING-LICENSE: https://balady.gov.sa/ar/services/10472 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BALADY-BUILDING-RENEW: https://balady.gov.sa/ar/services/تجديد-رخصة-بناء — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-BALADY-COMMERCIAL-INQUIRY: https://apps.balady.gov.sa/Eservices/Inquiries/vocational — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BALADY-COMMERCIAL-ISSUE: https://www.balady.gov.sa/ar/services/11010 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BALADY-COMMERCIAL-RENEW: https://www.balady.gov.sa/ar/services/10485 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BALADY-CONSTRUCTION-PRODUCT: https://balady.gov.sa/ar/products/الرخص-الإنشائية?page=1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
@@ -91,6 +83,7 @@
 - SRC-BOE-PERSONAL-STATUS: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/4d72d829-947b-45d5-b9b5-ae5800d6bac2/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BOE-PLEADINGS: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/f0eaae46-9f84-40ee-815e-a9a700f268b3/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BOE-PROTECTION-ABUSE: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/83f450eb-7985-461f-b053-a9a700f2ba08/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-BOE-REAL-ESTATE-BROKERAGE: https://rega.gov.sa/الأنظمة-والقرارات/الأنظمة-واللوائح-والأدلة/الأنظمة/نظام-الوساطة-العقارية/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BOE-REAL-REG-1443: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/c9756bfb-ff81-4226-a820-ae8200dc074c/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BOE-SHARIA-PLEADINGS: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/f0eaae46-9f84-40ee-815e-a9a700f268b3/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-BOG-ADMIN-EXEC-CURRENT: https://www.bog.gov.sa/EServices/Pages/tanfeedh.aspx — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
@@ -107,14 +100,17 @@
 - SRC-CHI-INS-LINK: https://www.chi.gov.sa/ServicesDirectory/Pages/UploadComplaintResVisFTPAIndi.aspx?cat=1&sub=4 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-CHI-PROVIDER-COMPLAINT: https://www.chi.gov.sa/ServicesDirectory/Pages/ComplaintAgaistHCPFInsured.aspx?cat=1&sub=4 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-CIV-BOE: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/655fdb42-8c96-422b-b8c4-b04f0095c94c/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-CST-ESCALATE: https://www.cst.gov.sa/services/Telecom-Complaints-Escalation — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-EJAR-FAQ: https://www.ejar.sa/ar/faqs — المصدر الرسمي منع/قيّد الفحص أو أعاد عطلًا مؤقتًا (HTTP 403)؛ لا يعد رابطًا مكسورًا.
 - SRC-EJAR-FAQ-CURRENT: https://www.ejar.sa/ar/faqs — المصدر الرسمي منع/قيّد الفحص أو أعاد عطلًا مؤقتًا (HTTP 403)؛ لا يعد رابطًا مكسورًا.
 - SRC-FAM-PSL-OFFICIAL: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/4d72d829-947b-45d5-b9b5-ae5800d6bac2/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-GCAM-MEDIA: https://gmedia.gov.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
-- SRC-GOSI-REVIEW-IND: https://beta.gosi.gov.sa/ar/services/individual-services/Review_Decision1 — تعذر الاتصال الآلي بالمصدر الرسمي (TIMEOUT)؛ لا يعد رابطًا مكسورًا.
-- SRC-HAJ-COMPLAINT-GUIDE: https://haj.gov.sa/ar/service-level-agreement — المصدر الرسمي منع/قيّد الفحص أو أعاد عطلًا مؤقتًا (HTTP 403)؛ لا يعد رابطًا مكسورًا.
-- SRC-HAJ-OFFICIAL: https://haj.gov.sa/ar — المصدر الرسمي منع/قيّد الفحص أو أعاد عطلًا مؤقتًا (HTTP 403)؛ لا يعد رابطًا مكسورًا.
-- SRC-HAJ-RIGHTS-GUIDE: https://haj.gov.sa/s-core/-/media/Project/HAJJ/PDF-and-FILES/Document-Library/AR-Guide-to-the-Rights-and-Duties-of-the-Guests-of-Allah.pdf → https://haj.gov.sa/sitecore/service/notfound.aspx — المصدر الرسمي منع/قيّد الفحص أو أعاد عطلًا مؤقتًا (HTTP 403)؛ لا يعد رابطًا مكسورًا.
+- SRC-GOSI-DISABILITY-APPEAL: https://beta.gosi.gov.sa/ar/services/individual-services/Appeal_The_Disability_Decision_ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-GOSI-REGISTRATION: https://www.gosi.gov.sa/GOSIOnline/Registration — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-HAJ-COMPLAINT-GUIDE: https://haj.gov.sa/ar/service-level-agreement — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-HAJ-OFFICIAL: https://haj.gov.sa/ar — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-HRSD-DOMESTIC-DOC: https://www.hrsd.gov.sa/ministry-services/services/833342 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-IAM-NAFATH: https://www.iam.gov.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-MC-COMPLAINT-FOLLOW: https://mc.gov.sa/ar/Pages/ReportConfirmation.aspx — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-MC-CONCEALMENT: https://mc.gov.sa/ar/anticoncealment/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-MC-CONSUMER-REPORT: https://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=55 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
@@ -123,7 +119,13 @@
 - SRC-MC-ECOM-RIGHTS: https://mc.gov.sa/ar/ecc/pages/default.aspx — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-MC-FRANCHISE: https://mc.gov.sa/ar/eservices/pages/servicedetails.aspx?sid=24 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-MC-TRADE-NAME: https://mc.gov.sa/ar/eservices/Pages/ServiceDetails.aspx?sID=1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-MEWA-AGRI-LICENSE: https://www.mewa.gov.sa/ar/MediaCenter/News/Pages/News13232020.aspx — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-MEWA-CONTACT: https://www.mewa.gov.sa/ar/Ministry/AboutMinistry/ContactUs/Pages/default.aspx — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-MEWA-FAQ-AGRI: https://www.mewa.gov.sa/ar/HowWeCanHelp/Help/FAQ/Pages/default.aspx — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-MEWA-NAAMA: https://www.mewa.gov.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-MIM-INDUSTRIAL: https://senaei.mc.gov.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-MOH-SEHHATY-APPOINTMENT: https://www.moh.gov.sa/eservices/sehhaty/pages/appointment-booking-on-sehhaty.aspx — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-MOH-SEHHATY-REPORT: https://www.moh.gov.sa/eservices/sehhaty/pages/sick-leaves.aspx — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-MOJ-EXEC-LAW: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/c81ba2f1-1bf1-443b-9b1c-a9a700f27110/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-MOMRA-CONTRACTOR: https://contractors.momah.gov.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-MONSHAT: https://www.monshaat.gov.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
@@ -137,6 +139,9 @@
 - SRC-RBR-COSTS-REG: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/d7e8efd3-4021-4413-8255-ae7c00f190de/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-RBR-CPL: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/f0eaae46-9f84-40ee-815e-a9a700f268b3/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-RBR-EXEC: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/c81ba2f1-1bf1-443b-9b1c-a9a700f27110/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-REGA-EJAR-SETTLEMENT: https://rega.gov.sa/rega-services/eservices/%D8%A7%D9%84%D8%B5%D9%84%D8%AD-%D9%84%D9%85%D8%B3%D8%AA%D9%81%D9%8A%D8%AF%D9%8A-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-%D8%A5%D9%8A%D8%AC%D8%A7%D8%B1/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-REGA-FAL: https://eservices.rega.gov.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-REGA-REGISTRY: https://rega.gov.sa/rega-services/platforms/real-estate-registry/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-SAKANI-DEVELOPMENTAL: https://sakani.sa/services/tanmwy — المصدر الرسمي منع/قيّد الفحص أو أعاد عطلًا مؤقتًا (HTTP 403)؛ لا يعد رابطًا مكسورًا.
 - SRC-SAKANI-ELIGIBILITY: https://sakani.sa/services/check-eligibility — المصدر الرسمي منع/قيّد الفحص أو أعاد عطلًا مؤقتًا (HTTP 403)؛ لا يعد رابطًا مكسورًا.
 - SRC-SAKANI-POLICY: https://sakani.sa/housing-subsidy-policy — المصدر الرسمي منع/قيّد الفحص أو أعاد عطلًا مؤقتًا (HTTP 403)؛ لا يعد رابطًا مكسورًا.
@@ -146,12 +151,20 @@
 - SRC-SBC-CR-JOURNEY: https://business.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-SBC-ECOM-DOC: https://business.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-SBC-SOLE-TRANSFER: https://business.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-SCFHS-PRACTITIONER-FAQ: https://scfhs.org.sa/ar/FAQ/Practitioner — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-SFDA-COSMETIC: https://www.sfda.gov.sa/ar/eservices/%D9%86%D8%B8%D8%A7%D9%85-%D8%AA%D9%8A%D9%82%D8%B8-%D8%A8%D9%84%D8%A7%D8%BA%D8%A7%D8%AA-%D8%A3%D8%B9%D8%B1%D8%A7%D8%B6-%D8%AC%D8%A7%D9%86%D8%A8%D9%8A%D8%A9-%D9%84%D9%85%D9%86%D8%AA%D8%AC%D8%A7%D8%AA-%D8%A7%D9%84%D8%AA%D8%AC%D9%85%D9%8A%D9%84 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-SFDA-DRUG-ADVERSE: https://www.sfda.gov.sa/ar/eservices/338 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-SFDA-DRUG-QUALITY: https://www.sfda.gov.sa/ar/eservices/341 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-SFDA-MEDDEVICE: https://www.sfda.gov.sa/ar/eservices/%D8%A7%D9%84%D9%85%D8%B1%D9%83%D8%B2-%D8%A7%D9%84%D9%88%D8%B7%D9%86%D9%8A-%D9%84%D8%A8%D9%84%D8%A7%D8%BA%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D8%AC%D9%87%D8%B2%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D9%84%D8%B2%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%B7%D8%A8%D9%8A%D8%A9 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-SOCPA-MEMBERSHIP: https://socpa.org.sa/CMSPages/GetFile.aspx?guid=fb9e4ef9-296e-4c92-96a6-a94a89a26ce0 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-TAQEEM-MOTOR: https://taqeem.gov.sa/sector/vehicle — المصدر الرسمي منع/قيّد الفحص أو أعاد عطلًا مؤقتًا (HTTP 403)؛ لا يعد رابطًا مكسورًا.
 - SRC-TGA-E: https://eservices.tga.gov.sa/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC-TGA-POSTAL-RIGHTS: https://www.tga.gov.sa/ar/WebSiteFile/bd07e77a-640e-4dd7-a24d-23ca361e8ea6 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC-ZATCA-GSTC: https://zatca.gov.sa/ar/eServices/Pages/eServices-028.aspx — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC100-PROOF: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/2716057c-c097-4bad-8e1e-ae1400c678d5/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC101-CYBER: https://my.gov.sa/.well-known/services/398352 — المصدر الرسمي منع/قيّد الفحص أو أعاد عطلًا مؤقتًا (HTTP 403)؛ لا يعد رابطًا مكسورًا.
+- SRC102-REGA-REG: https://rega.gov.sa/الأنظمة-والقرارات/الأنظمة-واللوائح-والأدلة/اللوائح/اللائحة-التنفيذية-لنظام-الوساطة-العقارية/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC102-REGA-SYS: https://rega.gov.sa/الأنظمة-والقرارات/الأنظمة-واللوائح-والأدلة/الأنظمة/نظام-الوساطة-العقارية/ — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC107-PSL: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/4d72d829-947b-45d5-b9b5-ae5800d6bac2/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC110-CIV: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/655fdb42-8c96-422b-b8c4-b04f0095c94c/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC111-CIV: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/655fdb42-8c96-422b-b8c4-b04f0095c94c/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
@@ -183,6 +196,7 @@
 - SRC145-FAM: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/4d72d829-947b-45d5-b9b5-ae5800d6bac2/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC146-FAM: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/4d72d829-947b-45d5-b9b5-ae5800d6bac2/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC147-FAM: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/4d72d829-947b-45d5-b9b5-ae5800d6bac2/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC148-COST: https://cfee.moj.gov.sa/system.html — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC153-FR: https://mc.gov.sa/ar/eservices/pages/ServiceDetails.aspx?sID=24 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC156-ARB: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/5535039e-13da-43f6-8f53-a9a700f26485/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC69-CPL: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/f0eaae46-9f84-40ee-815e-a9a700f268b3/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
@@ -198,6 +212,7 @@
 - SRC84-EXEC: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/c81ba2f1-1bf1-443b-9b1c-a9a700f27110/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC95-CPL: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/f0eaae46-9f84-40ee-815e-a9a700f268b3/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC95-PSL: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/4d72d829-947b-45d5-b9b5-ae5800d6bac2/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
+- SRC97-COSTSYS: https://cfee.moj.gov.sa/system.html — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRC99-ARB: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/5535039e-13da-43f6-8f53-a9a700f26485/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 - SRCNEXT-CIV: https://laws.boe.gov.sa/BoeLaws/Laws/LawDetails/655fdb42-8c96-422b-b8c4-b04f0095c94c/1 — تعذر الاتصال الآلي بالمصدر الرسمي (fetch failed)؛ لا يعد رابطًا مكسورًا.
 
@@ -207,7 +222,7 @@
 
 ## LOGIN_REQUIRED
 
-- SRC-IAM-NAFATH: https://www.iam.gov.sa/ → https://www.iam.gov.sa/idpinit/process?lang=ar — الوصول إلى المحتوى يتطلب تسجيل دخول (HTTP 206).
+- لا يوجد.
 
 ## PDF_OR_DOCUMENT
 
@@ -215,6 +230,7 @@
 - SRC-CA-RULES-2026: https://portal.ca.gov.sa/sites/default/files/لوائح وأنظمة ضوابط الدعم المقدم من خلال برنامج حساب المواطن.pdf → https://portal.ca.gov.sa/sites/default/files/%D9%84%D9%88%D8%A7%D8%A6%D8%AD%20%D9%88%D8%A3%D9%86%D8%B8%D9%85%D8%A9%20%D8%B6%D9%88%D8%A7%D8%A8%D8%B7%20%D8%A7%D9%84%D8%AF%D8%B9%D9%85%20%D8%A7%D9%84%D9%85%D9%82%D8%AF%D9%85%20%D9%85%D9%86%20%D8%AE%D9%84%D8%A7%D9%84%20%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC%20%D8%AD%D8%B3%D8%A7%D8%A8%20%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%B7%D9%86.pdf — رابط وثيقة رسمية استجاب؛ يلزم فتح الوثيقة للتحقق من مضمونها.
 - SRC-CMA-CRSD: https://crsd.org.sa/ar/Guidelines/Documents/%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84%20%D8%A7%D9%84%D8%A5%D8%B1%D8%B4%D8%A7%D8%AF%D9%8A.pdf — الرابط وثيقة رسمية لكن الوصول الآلي تعذر (fetch failed).
 - SRC-GACA-PASSENGER-RIGHTS: https://gaca.gov.sa/-/media/Files/PDF/Content--Pages/Know-your-rights-AR.pdf — الرابط وثيقة رسمية لكن الوصول الآلي تعذر (fetch failed).
+- SRC-HAJ-RIGHTS-GUIDE: https://haj.gov.sa/s-core/-/media/Project/HAJJ/PDF-and-FILES/Document-Library/AR-Guide-to-the-Rights-and-Duties-of-the-Guests-of-Allah.pdf — الرابط وثيقة رسمية لكن الوصول الآلي تعذر (fetch failed).
 - SRC-MOI-EMERGENCY: https://www.moi.gov.sa/wps/wcm/connect/1d7766f8-b8af-40cb-a3c7-55603ee286ec/Guidance.pdf?CACHEID=ROOTWORKSPACE-1d7766f8-b8af-40cb-a3c7-55603ee286ec-o0jvZ6U&CONVERT_TO=url&MOD=AJPERES — الرابط وثيقة رسمية لكن الوصول الآلي تعذر (fetch failed).
 - SRC-MOJ-BREASTFEEDING-DOC: https://www.moj.gov.sa/sites/knowledgebase/Documents02/CRM_CCTS_6bf85c7c-4aa4-4d9b-824c-9019fc400ac7.pdf — رابط وثيقة رسمية استجاب؛ يلزم فتح الوثيقة للتحقق من مضمونها.
 - SRC-MOJ-EXEC-34-GUIDE: https://www.moj.gov.sa/sites/knowledgebase/Documents02/CRM_CCTS_4fa4ff3f-8f52-43c9-b80c-d214d8b5f79d.pdf — رابط وثيقة رسمية استجاب؛ يلزم فتح الوثيقة للتحقق من مضمونها.
@@ -237,7 +253,7 @@
 - SRC-SBC-CR-UPDATE: https://business.sa/media/files/7f4f9558-ed62-4eca-9511-aed25d922b79.pdf — الرابط وثيقة رسمية لكن الوصول الآلي تعذر (fetch failed).
 - SRC-SCE-PRO-ACCREDITATION: https://www.saudieng.sa/Admin/DepartmentsDocuments/ProfessionalAccreditationGuide.pdf — الرابط وثيقة رسمية لكن الوصول الآلي تعذر (fetch failed).
 - SRC-SERA-COMPLAINTS: https://sera.gov.sa/-/media/wera/pdfs/e-service/complaint-escalation-guide.pdf — الرابط وثيقة رسمية لكن الوصول الآلي تعذر (fetch failed).
-- SRC-SFDA-FOOD-POISON: https://www.sfda.gov.sa/sites/default/files/2023-05/Dfhj78ht67.pdf — رابط وثيقة رسمية استجاب؛ يلزم فتح الوثيقة للتحقق من مضمونها.
+- SRC-SFDA-FOOD-POISON: https://www.sfda.gov.sa/sites/default/files/2023-05/Dfhj78ht67.pdf — الرابط وثيقة رسمية لكن الوصول الآلي تعذر (fetch failed).
 - SRC100-GUIDE: https://www.moj.gov.sa/Documents/Sharing/ExplanationOfTheProofSystem.pdf — رابط وثيقة رسمية استجاب؛ يلزم فتح الوثيقة للتحقق من مضمونها.
 - SRC100-PROOFPDF: https://www.moj.gov.sa/Documents/Regulations/pdf/ProofSystem.pdf — رابط وثيقة رسمية استجاب؛ يلزم فتح الوثيقة للتحقق من مضمونها.
 - SRC106-PSL: https://laws.boe.gov.sa/Files/Download/?attId=e1b4e2e3-46b5-4659-a8f1-b11600da934a — الرابط وثيقة رسمية لكن الوصول الآلي تعذر (fetch failed).
