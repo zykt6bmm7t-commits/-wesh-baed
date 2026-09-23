@@ -1,0 +1,66 @@
+{
+  "file": "index.html",
+  "counts": {
+    "questions": 305,
+    "options": 1296,
+    "results": 636,
+    "sources": 621
+  },
+  "coverage": {
+    "current_situation": 636,
+    "ui_current_situation": 636,
+    "next_step": 636,
+    "ui_next_step": 636,
+    "action_required": 631,
+    "ui_action_required": 636,
+    "authority": 636,
+    "court": 232,
+    "court_or_authority": 19,
+    "service": 380,
+    "procedure_type": 474,
+    "requirements": 635,
+    "ui_requirements": 635,
+    "documents": 361,
+    "deadline": 352,
+    "costs": 350,
+    "what_happens_next": 630,
+    "ui_what_happens_next": 636,
+    "common_mistake": 439,
+    "lawyer_boundary": 635,
+    "ui_caution": 636,
+    "relevant_articles": 166,
+    "rule_ref": 129,
+    "source_id": 636,
+    "ui_official_source": 636
+  },
+  "qa": {
+    "broken_next_id": 0,
+    "unreachable_questions": 0,
+    "unreachable_results": 0,
+    "dead_ends": 0,
+    "missing_source_id": 0,
+    "duplicate_questions": 0,
+    "duplicate_options": 0,
+    "results_without_action": 0,
+    "results_without_authority": 0,
+    "expert_bureau_as_authority": 0,
+    "source_title_in_authority": 4
+  },
+  "offenders": {
+    "broken": [],
+    "unreachableQuestions": [],
+    "unreachableResults": [],
+    "deadEnds": [],
+    "missingSource": [],
+    "noAction": [],
+    "noAuthority": [],
+    "expertBureauAsAuthority": [],
+    "sourceTitleInAuthority": [
+      "R-COMM-FRAUD-GATE",
+      "R-DIGITAL-NAFATH-SUPPORT",
+      "R-DIGITAL-TAWAKKALNA-SUPPORT",
+      "R-CIVIL-REALRIGHT-REGISTRATION"
+    ],
+    "duplicateOptions": []
+  }
+}
