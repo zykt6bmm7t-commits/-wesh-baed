@@ -24,11 +24,11 @@
 ## صحة الروابط الرسمية
 
 - Sources tested: 621
-- ACTIVE: 136
-- REDIRECTED: 17
+- ACTIVE: 425
+- REDIRECTED: 16
 - BROKEN: 0
 - SUPERSEDED: 0
-- BLOCKED_FROM_AUTOMATED_CHECK: 468
+- BLOCKED_FROM_AUTOMATED_CHECK: 180
 - REQUIRES_LEGAL_REVIEW: 0
 
 المشكلة التقنية منفصلة عن المراجعة القانونية: الحظر أو انتهاء المهلة لا يعني أن الرابط مكسور، وصلته القانونية بالادعاء لا تعتمد آليًا عند غياب دليل قطعي.
@@ -52,7 +52,7 @@
 
 ## Performance
 
-- index.html: 5,396,643 bytes.
+- index.html: 5,397,074 bytes.
 - نسخة البيع مطابقة للـindex: YES.
 - أزيل تعديل HTML وقت التشغيل من Service Worker، وثُبتت مسارات Project Pages النسبية في manifest.
 - بقي الهيكل الأحادي الكبير كما هو؛ فصل البيانات الآن مخاطرة غير لازمة قبل اعتماد المحامي ويتطلب اختبار تطابق مستقلًا. يوصى به كتحسين لاحق، لا كشرط يمنع التسليم للمحامي.

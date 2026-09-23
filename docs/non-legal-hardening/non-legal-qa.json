@@ -34,8 +34,8 @@
     "candidate_matches_index": true,
     "manifest_link_relative": true,
     "service_worker_registered": false,
-    "index_bytes": 5396643,
-    "candidate_bytes": 5396643
+    "index_bytes": 5397074,
+    "candidate_bytes": 5397074
   },
   "pass": true
 }

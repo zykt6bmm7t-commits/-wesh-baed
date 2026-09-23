@@ -1,13 +1,13 @@
 {
-  "checked_at": "2026-09-23T15:42:59.417Z",
+  "checked_at": "2026-09-23T16:09:48.684Z",
   "total": 621,
   "counts": {
-    "ACTIVE": 136,
-    "BLOCKED_FROM_AUTOMATED_CHECK": 468,
-    "REDIRECTED": 17
+    "ACTIVE": 425,
+    "BLOCKED_FROM_AUTOMATED_CHECK": 180,
+    "REDIRECTED": 16
   },
   "broken": [],
   "superseded": [],
-  "blocked_from_automated_check": 468,
+  "blocked_from_automated_check": 180,
   "requires_legal_review": 0
 }

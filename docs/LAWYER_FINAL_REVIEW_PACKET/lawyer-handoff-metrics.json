@@ -7,9 +7,9 @@
   "stale_risk": 130,
   "sources_tested": 621,
   "source_counts": {
-    "ACTIVE": 136,
-    "BLOCKED_FROM_AUTOMATED_CHECK": 468,
-    "REDIRECTED": 17
+    "ACTIVE": 425,
+    "BLOCKED_FROM_AUTOMATED_CHECK": 180,
+    "REDIRECTED": 16
   },
   "specialty_high_counts": {
     "A": 53,
